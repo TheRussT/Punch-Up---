@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://SirRendrefinal.png" type="Texture" id=1]
+[ext_resource path="res://enemy.gd" type="Script" id=2]
+
+[node name="Ring" type="Node2D"]
+
+[node name="enemy" type="KinematicBody2D" parent="."]
+position = Vector2( 123, 110 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="enemy"]
+texture = ExtResource( 1 )
+hframes = 12
+vframes = 3
+frame = 15
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="enemy"]
