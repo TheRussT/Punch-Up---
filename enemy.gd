@@ -6,25 +6,25 @@ var state = 1;
 var timer = 100;
 var t_counter = 1;
 var repeater = 0;
-var hits_aval = 4;
-var l_punched = false;
+var hits_aval = 7;
+var gaurd = [1,1,5,5] #left up, right up, left down, right down
 
 func _ready():
 	pass
 func _physics_process(_delta):
 	enemy_handler();
-	if Input.is_action_just_released("ui_right"):
-		state = 2;
-		t_counter = 1
+	#if Input.is_action_just_released("ui_right"):
+		#state = 2;
+		#t_counter = 1
 	if Input.is_action_just_released("ui_down"):
 		state = 4;
 		t_counter = 1
 	if Input.is_action_just_released("ui_accept"):
 		state = 6;
 		t_counter = 1;
-	if Input.is_action_just_pressed("ui_left"):
-		state = 8;
-		t_counter = 1;
+	#if Input.is_action_just_pressed("ui_left"):
+		#state = 8;
+		#t_counter = 1;
 	
 
 func enemy_handler():
@@ -86,7 +86,7 @@ func enemy_handler():
 				$Sprite.set_frame(f_Table[4][t_counter + 2]);
 				timer = f_Table[4][t_counter + 3];
 				t_counter += 4;
-	elif(state == 4): #hit right uppercut
+	elif(state == 4): #hit right uppercut (add left facing sprite)
 		$Sprite.scale.x = -1;
 		if(timer <= 0):
 			position.x -= f_Table[3][t_counter];
@@ -105,7 +105,7 @@ func enemy_handler():
 					t_counter = 1;
 					hits_aval -= 1;
 					timer = f_Table[2][0]
-	elif(state == 5): #sent left uppercut
+	elif(state == 5): #sent left uppercut (add left facing sprite)
 		if(timer <= 0):
 			if(t_counter >= f_Table[4][0] * 4 + 1):
 				$Sprite.scale.x = 1;
@@ -137,7 +137,7 @@ func enemy_handler():
 					t_counter = 1;
 					hits_aval -= 1;
 					timer = f_Table[2][0]
-	elif(state == 7): #sent left uppercut
+	elif(state == 7): #sent stomach
 		if(timer <= 0):
 			if(t_counter >= f_Table[6][0] * 4 + 1):
 				t_counter = 1;
