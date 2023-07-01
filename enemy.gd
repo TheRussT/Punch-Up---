@@ -1,32 +1,20 @@
 extends KinematicBody2D
 #usually fighter Table state components consist of how many repititions there will be followed by a pattern of x movements, y movements, animation frame, timer
-var f_Table = [[125,108] , [6,-1,2,0,16,-2,-3,4,7,0,1,4,2,1,1,5,16,2,-2,4,7,0,1,4,2] , [50,17] , [3,0,0,15,5,2,-2,15,5,2,-2,15,5] , [3,3,-2,16,5,2,-2,16,5,4,-4,16,60], #Stats, Idle, Daze, Hit, Sent
-[3,0,0,12,8,1,-1,12,5,1,-1,12,4] , [3,1,-1,12,4,1,-1,12,8,1,-1,12,60] , [3,0,0,9,12,4,-2,9,8,0,0,8,60] , [3,0,0,7,12,4,-2,7,8,0,0,6,60] , [5,0]]
+var f_Table = [[125,108] , [6,-1,2,0,16,-2,-3,4,7,0,1,4,2,1,1,5,16,2,-2,4,7,0,1,4,2] , [50,17] , [3,0,0,15,2,2,-2,15,2,2,-2,15,2] , [3,3,-2,16,3,2,-2,16,3,4,-4,16,10], #Stats, Idle, Daze, Hit, Sent
+[3,0,0,12,3,1,-1,12,2,1,-1,12,2] , [3,1,-1,12,2,1,-1,12,4,1,-1,12,20] , [3,0,0,9,6,4,-2,9,4,0,0,8,20] , [3,0,0,7,6,4,-2,7,4,0,0,6,20] , [5,0], #Stomach hit, Stomach sent, High block, Low block, Stamina
+[], []]
 var state = 1;
 var timer = 100;
 var t_counter = 1;
 var repeater = 0;
 var hits_aval = 7;
-var gaurd = [1,1,5,5] #left up, right up, left down, right down
+var gaurd = [2,2,8,8] #left up, right up, left down, right down
 
 func _ready():
 	pass
 func _physics_process(_delta):
 	enemy_handler();
-	#if Input.is_action_just_released("ui_right"):
-		#state = 2;
-		#t_counter = 1
-	if Input.is_action_just_released("ui_down"):
-		state = 4;
-		t_counter = 1
-	if Input.is_action_just_released("ui_accept"):
-		state = 6;
-		t_counter = 1;
-	#if Input.is_action_just_pressed("ui_left"):
-		#state = 8;
-		#t_counter = 1;
 	
-
 func enemy_handler():
 	timer -= 1;
 	if(state == 0): #Idling
@@ -190,3 +178,41 @@ func enemy_handler():
 				position.x = f_Table[0][0];
 				position.y = f_Table[0][1];
 	#elif() #falling
+	elif(state == 12): #dodge
+		pass
+	elif(state == 13):
+		pass
+	
+
+
+func _on_player_punch(value):
+	t_counter = 1
+	if(value == 0):
+		if(gaurd[0] > 6):
+			state = 8
+		elif(gaurd[0] > 4):
+			state = 12;
+		elif(gaurd[0] > 0):
+			state = 2;
+	elif(value == 1):
+		if(gaurd[1] > 6):
+			state = 8
+		elif(gaurd[1] > 4):
+			state = 12;
+		elif(gaurd[1] > 0):
+			state = 4;
+	elif(value == 2):
+		if(gaurd[2] > 6):
+			state = 9
+		elif(gaurd[2] > 4):
+			state = 12;
+		elif(gaurd[2] > 0):
+			state = 6;
+	elif(value == 3):
+		if(gaurd[3] > 6):
+			state = 9
+		elif(gaurd[3] > 4):
+			state = 12;
+		elif(gaurd[3] > 0):
+			state = 6;
+	
