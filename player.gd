@@ -88,12 +88,12 @@ func action_handler():
 			elif(act_counter == 32):
 				position.y -= 5
 				position.x += 2
-			elif(act_counter == 28):
+			elif(act_counter == 30):
 				$Sprite.set_frame(9)
 				position.y -= 7
 				position.x += 2
 				
-			elif(act_counter == 24):
+			elif(act_counter == 28):
 				position.x += 2
 				emit_signal("punch",0)
 			elif(act_counter == 5):
@@ -114,12 +114,12 @@ func action_handler():
 			elif(act_counter == 32):
 				position.y -= 5
 				position.x += 6
-			elif(act_counter == 28):
+			elif(act_counter == 30):
 				$Sprite.set_frame(13)
 				position.y -= 7
 				position.x -= 3
 				
-			elif(act_counter == 24):
+			elif(act_counter == 28):
 				position.x -= 2
 				emit_signal("punch", 1)
 			elif(act_counter == 5):
@@ -167,3 +167,7 @@ func idler():
 		$Sprite.set_frame(idle[idle_index +1])
 		act_counter = idle[idle_index + 2]
 		idle_index = (idle_index + 3) % 36
+
+
+func _on_enemy_attack(type):
+	pass # Replace with function body.
