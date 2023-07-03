@@ -2,6 +2,7 @@ extends KinematicBody2D
 var inam = false;
 var act_counter = 0;
 signal punch(value)
+signal f_health(amount)
 var health = 200;
 
 enum {
@@ -59,7 +60,7 @@ func action_handler():
 		inam = false
 		$Sprite.set_frame(0)
 		position.x = 110
-		position.y = 145
+		position.y = 155
 		idle_index = 33
 		state = IDLE
 	match state:
@@ -199,7 +200,7 @@ func idler():
 
 
 func _on_enemy_attack(type,damage):
-	if(state != R_HIT and state != L_HIT):
+	if((state != R_HIT and state != L_HIT) or ((state == R_DODGE or state == L_DODGE) and act_counter <= 12)):
 		if(type > 5):
 			pass
 		elif(type == 5):
@@ -207,14 +208,19 @@ func _on_enemy_attack(type,damage):
 		elif(type == 4):
 			pass
 		else:
-			if(state != R_DODGE and state != L_DODGE):
+			if((state != R_DODGE and state != L_DODGE) or ((state == R_DODGE or state == L_DODGE) and act_counter <= 12)):
+				position.x = 110
+				position.y = 155
 				if((type % 2) == 0):
 					state = L_HIT
 					act_counter = 25
 					inam = true
 					health -= damage
+					emit_signal("f_health",health)
 				else:
 					state = R_HIT
 					act_counter = 25
 					inam = true
 					health -= damage
+					emit_signal("f_health",health)
+

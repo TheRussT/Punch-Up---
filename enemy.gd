@@ -1,12 +1,12 @@
 extends KinematicBody2D
 #usually fighter Table state components consist of how many repititions there will be followed by a pattern of x movements, y movements, animation frame, timer
-var f_Table = [[125,108,[2,2,8,8],200] , [6,-1,2,0,16,-2,-3,4,7,0,1,4,2,1,1,5,16,2,-2,4,7,0,1,4,2] , [50,17] , [3,0,0,15,2,2,-2,15,3,2,-2,15,3] , [3,3,-2,16,3,2,-2,16,3,4,-4,16,10], #Stats, Idle, Daze, Hit, Sent
+var f_Table = [[125,118,[2,2,8,8],200] , [6,-1,2,0,16,-2,-3,4,7,0,1,4,2,1,1,5,16,2,-2,4,7,0,1,4,2] , [50,17] , [3,0,0,15,2,2,-2,15,3,2,-2,15,3] , [3,3,-2,16,3,2,-2,16,3,4,-4,16,10], #Stats, Idle, Daze, Hit, Sent
 [3,0,0,12,3,1,-1,12,2,1,-1,12,1] , [3,1,-1,12,2,1,-1,12,2,1,-1,12,12] , [3,0,0,9,6,4,-2,9,4,0,0,8,20] , [3,0,0,7,6,4,-2,7,4,0,0,6,20] , [5,0], #Stomach hit, Stomach sent, High block, Low block, Stamina
-[3,12,-10,10,5,10,-6,10,5,16,-6,10,15], 
+[3,8,-6,10,5,8,-6,10,7,16,-6,10,15], #dodge
 [6,4,-2,1,6,[2,8,8,3],false,3,-3,1,6,[3,6,8,8],false,2,-4,1,18,[8,8,8,8],false,-2,2,22,6,[8,8,8,8],false,-16,16,18,4,[8,8,8,8],true,0,0,18,48,[1,1,1,1],false,0,0,18,1,[0,0,0,0],false],
-[7,-6,-2,2,6,[8,8,8,8],false,-6,-2,19,6,[0,0,0,0],false,-12,2,19,20,[0,0,3,0],false,3,6,23,3,[0,0,0,0],false,8,6,20,5,[8,8,8,8],false,20,-3,20,4,[8,8,8,8],true,3,-1,21,32,[1,1,1,1],false,0,0,21,1,[0,0,0,0],false]]
-var f_schedule = [[0,11],[1,720],[0,14],[1,100],[0,13],[1,100],[0,14],[1,160],[0,13],[2,60,100],[4,2,11],[0,13],[1,70],[3,2]]
-#                   0       1       2       3      4       5       6      7       8        9        10      11    12     13
+[7,-6,-2,2,6,[8,8,8,8],false,-6,-2,19,6,[0,0,0,0],false,-12,2,19,20,[0,0,3,0],false,3,6,23,3,[0,0,0,0],false,8,6,20,5,[8,8,8,8],false,20,-3,20,4,[8,8,8,8],true,3,-1,21,42,[1,1,1,1],false,0,0,21,1,[0,0,0,0],false]]
+var f_schedule = [[0,11],[1,7],[0,14],[1,100],[0,13],[1,100],[0,14],[1,160],[0,13],[2,60,100],[4,2,11],[0,13],[1,70],[3,2]]
+#                   0       1       2       3      4       5       6      7       8        9        10      11    12    13
 var sch_timer = 1
 var sch_index = 0
 var state = 0;
@@ -18,6 +18,7 @@ var gaurd = [3,3,8,8] #left up, right up, left down, right down
 var health = f_Table[0][3]
 
 signal attack(type,damage)
+signal health(amount)
 
 func _ready():
 	pass
@@ -56,6 +57,7 @@ func enemy_handler():
 			if(t_counter >= f_Table[3][0] * 4 + 1):
 				health -= 10
 				check_health()
+				emit_signal("health", health)
 				if(hits_aval <=1):
 					state = 3;
 					t_counter = 1;
@@ -91,6 +93,7 @@ func enemy_handler():
 			if(t_counter >= f_Table[3][0] * 4 + 1):
 				health -= 10
 				check_health()
+				emit_signal("health", health)
 				if(hits_aval <=1):
 					state = 5;
 					t_counter = 1;
@@ -126,6 +129,7 @@ func enemy_handler():
 			if(t_counter >= f_Table[5][0] * 4 + 1):
 				health -= 10
 				check_health()
+				emit_signal("health", health)
 				if(hits_aval <=1):
 					state = 7;
 					t_counter = 1;
