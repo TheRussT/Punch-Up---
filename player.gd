@@ -20,6 +20,7 @@ enum {
 var state = IDLE;
 var idle_index = 0;
 var idle = [-0.75,0,8,0.75,1,8,0,1,12,-0.75,0,8,0.75,1,8,0,1,48,-0.75,0,8,0.75,1,8,0,1,12,0.75,0,8,-0.75,1,8,0,1,64]
+var direction_keys = []
 
 func _physics_process(_delta):
 	if(inam == false):

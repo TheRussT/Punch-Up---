@@ -38,6 +38,7 @@ __meta__ = {
 texture = ExtResource( 1 )
 hframes = 12
 vframes = 3
+frame = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="enemy"]
 
