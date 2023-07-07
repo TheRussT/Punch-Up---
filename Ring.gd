@@ -22,3 +22,13 @@ func _on_player_f_health(amount):
 func _on_enemy_health(amount):
 	var e_healthbar = $e_healthbar
 	e_healthbar.value = amount
+
+
+func _on_player_f_stam(amount):
+	var f_staminabar = $f_staminabar
+	f_staminabar.value = amount
+
+
+func _on_enemy_stam_deplete(amount):
+	var e_staminabar = $e_staminabar
+	e_staminabar.value = amount
