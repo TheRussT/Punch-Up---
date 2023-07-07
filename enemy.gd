@@ -1,4 +1,4 @@
-extends KinematicBody2D
+extends CharacterBody2D
 #usually fighter Table state components consist of how many repititions there will be followed by a pattern of x movements, y movements, animation frame, timer
 #                        x   y guard health stamina
 var f_Table = {"stats":[125,118,[3,3,8,8],200,30], "idle":[6,-1,2,0,16,-2,-3,4,7,0,1,4,2,1,1,5,16,2,-2,4,7,0,1,4,2], "daze":[50,17], "jaw_hit":[3,0,0,15,2,2,-2,15,3,2,-2,15,3], "jaw_sent":[3,3,-2,16,3,2,-2,16,3,4,-4,16,10], #Stats, Idle, Daze, Hit, Sent
@@ -6,8 +6,9 @@ var f_Table = {"stats":[125,118,[3,3,8,8],200,30], "idle":[6,-1,2,0,16,-2,-3,4,7
 "stam_loss":[4,5,-2,13,8,3,-3,14,6,-3,-3,14,6,-5,-2,13,8,-5,2,13,8,-3,3,14,6,3,3,14,6,5,2,13], "dodge":[3,6,-4,10,5,6,-4,10,7,10,-6,10,15], #dodge
 "jab":[7,2,-1,1,6,[2,8,8,3],false,2,-2,1,6,[3,6,8,8],false,1,-2,1,18,[8,8,8,8],false,-2,2,22,6,[8,8,8,8],false,-12,12,18,4,[8,8,8,8],true,0,0,18,14,[1,1,1,1],false,3,-3,18,30,[1,1,1,1],false],
 "hook":[7,-6,-2,2,6,[8,8,8,8],false,-6,-2,19,6,[0,0,0,0],false,-12,2,19,20,[0,0,3,0],false,3,6,23,3,[0,0,0,0],false,8,6,20,5,[8,8,8,8],false,20,-3,20,4,[8,8,8,8],true,3,-1,21,42,[1,1,1,1],false],
-"taunt":[16,0,-2,0,8,[0,0,0,0],true,0,-2,4,8,[],false,0,-2,5,8,[],false,0,-2,0,8,[],false,0,-2,4,8,[],false,0,-2,5,8,[],false,0,-2,0,40,[],false,-4,-3,24,24,[],false,4,3,0,8,[],false,
--4,2,26,8,[],false,0,2,25,8,[],false,4,2,27,8,[],false,0,2,25,8,[],false,-4,2,26,8,[],false,0,2,25,8,[],false,2,2,27,8,[0,0,7,7],true,0,2,0,160,[],false]}
+"taunt":[17,0,-2,0,8,[0,0,0,0],true,0,-2,4,8,[],false,0,-2,5,8,[],false,0,-2,0,8,[],false,0,-2,4,8,[],false,0,-2,5,8,[],false,0,-2,0,40,[],false,-4,-3,24,5,[],false,0,0,28,24,[],false,4,3,0,8,[],false,
+-4,2,26,8,[],false,0,2,25,8,[],false,4,2,27,8,[],false,0,2,25,8,[],false,-4,2,26,8,[],false,0,2,25,8,[],false,2,2,27,8,[0,0,7,7],true,0,2,0,160,[],false],
+"belly_falling":[]}
 var f_schedule = [[0,11],[1,200],[0,14],[1,100],[0,13],[1,100],[0,14],[1,160],[0,13],[2,60,100],[4,2,11],[0,13],[1,70],[3,2],[0,14],[1,15],[0,14],[1,15],[3,14],[0,16],[1,5],[0,14],[3,2],[0,10],[3,2]]
 #                   0      1  |    2       3      4       5       6      7       8        9        10      11     12    13  |  14     15     16     17     18  |   19    20    21    22  |  23     24
 #             walk & start wait                                         main loop                                              player has no stamina                        taunt         stamina daze
@@ -22,10 +23,10 @@ var guard = f_Table["stats"][2] #left up, right up, left down, right down
 var health = f_Table["stats"][3]
 var stamina = 35
 var idle_hit_counter = 0;
-onready var sprite = $Sprite
+@onready var sprite = $Sprite2D
 
 signal attack(type,damage)
-signal health(amount)
+signal health_deplete(amount)
 signal stam_deplete(amount)
 signal blocked(value)
 
@@ -48,7 +49,7 @@ func enemy_handler():
 			t_counter = (t_counter + 4) % (f_Table["idle"][0] * 4)
 	elif(state == 1): #daze
 		sprite.set_frame(f_Table["daze"][1]);
-		sprite.scale.x = 1; #Can remove after right facing sprites
+		sprite.flip_h = 0; #Can remove after right facing sprites
 		#hit detection
 		if(timer <= 0):
 			state = 0
@@ -79,7 +80,7 @@ func enemy_handler():
 			else:
 				update_four("jaw_sent")
 	elif(state == 4): #hit right uppercut (add left facing sprite)
-		sprite.scale.x = -1;
+		sprite.flip_h = 1
 		if(timer <= 0):
 			position.x -= f_Table["jaw_hit"][t_counter];
 			position.y += f_Table["jaw_hit"][t_counter + 1];
@@ -88,6 +89,7 @@ func enemy_handler():
 			t_counter += 4;
 			if(t_counter >= f_Table["jaw_hit"][0] * 4 + 1):
 				health -= 10
+				check_health()
 				check_stam(1,false)
 				emit_signal("health", health)
 				if(hits_aval <=1):
@@ -103,7 +105,7 @@ func enemy_handler():
 	elif(state == 5): #sent left uppercut (add left facing sprite)
 		if(timer <= 0):
 			if(t_counter >= f_Table["jaw_sent"][0] * 4 + 1):
-				sprite.scale.x = 1;
+				sprite.flip_h = 0;
 				reset()
 				guard = [8,8,3,3]
 			else:
@@ -156,9 +158,9 @@ func enemy_handler():
 		if(timer <= 0):
 			if(160 > t_counter):
 				if(t_counter % 32 > 16):
-					sprite.scale.x = -1
+					sprite.flip_h = 1
 				else:
-					sprite.scale.x = 1
+					sprite.flip_h = 0
 				if(t_counter > 24):
 					guard = [1,1,1,1]
 				position.x += f_Table["stam_loss"][t_counter % 32];
@@ -167,7 +169,7 @@ func enemy_handler():
 				timer = f_Table["stam_loss"][(t_counter + 3) % 32];
 				t_counter += 4;
 			else:
-				sprite.scale.x = 1
+				sprite.flip_h = 0
 				reset()
 	#elif() #falling
 	elif(state == 12): #dodge

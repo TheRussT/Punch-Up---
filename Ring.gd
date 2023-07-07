@@ -19,7 +19,7 @@ func _on_player_f_health(amount):
 	f_healthbar.value = amount
 
 
-func _on_enemy_health(amount):
+func _on_enemy_health_deplete(amount):
 	var e_healthbar = $e_healthbar
 	e_healthbar.value = amount
 

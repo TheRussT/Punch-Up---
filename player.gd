@@ -1,4 +1,4 @@
-extends KinematicBody2D
+extends CharacterBody2D
 var inam = false;
 var act_counter = 0;
 signal punch(value)
@@ -10,20 +10,7 @@ var stam_max = 20
 var stamina = stam_max
 
 enum {
-	IDLE
-	L_DODGE
-	R_DODGE
-	L_HOOK
-	R_HOOK
-	L_JAB
-	R_JAB
-	BLOCK
-	L_HIT
-	R_HIT
-	COOLDOWN
-	PARRY
-	BLOCKING
-	NO_STAM
+	IDLE, L_DODGE, R_DODGE, L_HOOK, R_HOOK,L_JAB,R_JAB,BLOCK,L_HIT,R_HIT,COOLDOWN,PARRY,BLOCKING,NO_STAM,FALLING
 }
 var state = IDLE;
 var idle_index = 0;
@@ -69,7 +56,7 @@ func _physics_process(_delta):
 			process_player_input()
 		elif(state == BLOCK):
 			if(direction_keys.find("ui_up") < 0):
-				$Sprite.set_frame(0)
+				$Sprite2D.set_frame(0)
 				position.x = 110
 				position.y = 155
 				idle_index = 33
@@ -136,7 +123,7 @@ func process_player_input():
 func action_handler():
 	if(act_counter <= 0): #if complicates going down, add another conditional or act_counter = 1 change states
 		inam = false
-		$Sprite.set_frame(0)
+		$Sprite2D.set_frame(0)
 		position.x = 110
 		position.y = 155
 		idle_index = 33
@@ -147,36 +134,36 @@ func action_handler():
 	match state:
 		L_DODGE:
 			if(act_counter >= 32):
-				$Sprite.set_frame(2)
+				$Sprite2D.set_frame(2)
 				position.x -= 2.5;
 			elif (act_counter >= 7):
-				$Sprite.set_frame(3)
+				$Sprite2D.set_frame(3)
 			elif (act_counter > 1) :
-				$Sprite.set_frame(2)
+				$Sprite2D.set_frame(2)
 				position.x += 2.5
 		R_DODGE:
 			if(act_counter >= 32):
-				$Sprite.set_frame(4)
+				$Sprite2D.set_frame(4)
 				position.x += 3;
 			elif (act_counter >= 7):
-				$Sprite.set_frame(5)
+				$Sprite2D.set_frame(5)
 			elif (act_counter > 1) :
-				$Sprite.set_frame(4)
+				$Sprite2D.set_frame(4)
 				position.x -= 3
 		L_JAB:
 			if(act_counter == 28):
-				$Sprite.set_frame(7)
+				$Sprite2D.set_frame(7)
 				position.y -= 3
 				position.x += 2
 			elif(act_counter == 26):
-				$Sprite.set_frame(8)
+				$Sprite2D.set_frame(8)
 				position.y -= 7
 				position.x +=2
 			elif(act_counter == 24):
 				position.y -= 5
 				position.x += 2
 			elif(act_counter == 23):
-				$Sprite.set_frame(9)
+				$Sprite2D.set_frame(9)
 				position.y -= 7
 				position.x += 2
 				
@@ -184,25 +171,25 @@ func action_handler():
 				position.x += 2
 				emit_signal("punch",0)
 			elif(act_counter == 5):
-				$Sprite.set_frame(8)
+				$Sprite2D.set_frame(8)
 				position.y += 4
 			elif(act_counter == 2):
 				position.y += 3;
 				position.x -= 1
 		R_JAB:
 			if(act_counter == 28):
-				$Sprite.set_frame(11)
+				$Sprite2D.set_frame(11)
 				position.y -= 3
 				position.x += 12
 			elif(act_counter == 26):
-				$Sprite.set_frame(12)
+				$Sprite2D.set_frame(12)
 				position.y -= 7
 				position.x +=6
 			elif(act_counter == 24):
 				position.y -= 5
 				position.x += 3
 			elif(act_counter == 23):
-				$Sprite.set_frame(13)
+				$Sprite2D.set_frame(13)
 				position.y -= 7
 				position.x -= 3
 				
@@ -210,82 +197,86 @@ func action_handler():
 				position.x -= 2
 				emit_signal("punch", 1)
 			elif(act_counter == 5):
-				$Sprite.set_frame(12)
+				$Sprite2D.set_frame(12)
 				position.y += 4
 			elif(act_counter == 2):
 				position.y += 3
 				position.x -= 2
 		L_HOOK:
 			if(act_counter == 28):
-				$Sprite.set_frame(6)
+				$Sprite2D.set_frame(6)
 				position.x += 4
 			elif(act_counter == 25):
 				emit_signal("punch", 2)
-				$Sprite.set_frame(7)
+				$Sprite2D.set_frame(7)
 				position.y -= 3
 				position.x += 5
 			elif(act_counter == 22):
-				$Sprite.set_frame(8)
+				$Sprite2D.set_frame(8)
 				position.y -= 3
 				position.x += 6
 			elif(act_counter == 6):
-				$Sprite.set_frame(7)
+				$Sprite2D.set_frame(7)
 				position.y += 3
 		R_HOOK:
 			if(act_counter == 28):
-				$Sprite.set_frame(10)
+				$Sprite2D.set_frame(10)
 				position.x += 12
 			elif(act_counter == 25):
-				$Sprite.set_frame(11)
+				$Sprite2D.set_frame(11)
 				position.x += 8
 				position.y -= 3
 				emit_signal("punch", 3)
 			elif(act_counter == 22):
-				$Sprite.set_frame(12)
+				$Sprite2D.set_frame(12)
 				position.x +=5
 				position.y -= 3
 			elif(act_counter == 6):
-				$Sprite.set_frame(11)
+				$Sprite2D.set_frame(11)
 				position.y += 3
 		L_HIT:
 			if(act_counter == 34):
-				$Sprite.set_frame(17)
+				$Sprite2D.set_frame(17)
 				position.x -= 4
 				position.y += 4
 			elif(act_counter == 31):
-				$Sprite.set_frame(18)
+				$Sprite2D.set_frame(18)
 				position.y += 4
 				position.x -= 4
-			elif(act_counter == 2):
+			elif(act_counter == 28):
 				if(health <= 0):
 					print("knockdown")
-				else:
-					state = COOLDOWN
-					act_counter = 16
-					position.x = 110
-					position.y = 155
+					state = FALLING
+					act_counter = 29
+			elif(act_counter == 2):
+				state = COOLDOWN
+				act_counter = 16
+				position.x = 110
+				position.y = 155
 		R_HIT:
 			if(act_counter == 34):
-				$Sprite.set_frame(14)
+				$Sprite2D.set_frame(14)
 				position.x += 6
 				position.y += 4
 			elif(act_counter == 31):
-				$Sprite.set_frame(15)
+				$Sprite2D.set_frame(15)
 				position.y += 4
 				position.x += 4
-			elif(act_counter == 2):
+			elif(act_counter == 28):
 				if(health <= 0):
 					print("knockdown")
-				else:
-					state = COOLDOWN
-					act_counter = 16
-					position.x = 110
-					position.y = 155
+					state = FALLING
+					act_counter = 29
+			elif(act_counter == 2):
+				state = COOLDOWN
+				act_counter = 16
+				position.x = 110
+				position.y = 155
 		COOLDOWN:
 			if(act_counter == 15):
-				$Sprite.set_frame(20)
+				$Sprite2D.set_frame(20)
 			elif(act_counter == 7):
-				$Sprite.set_frame(19)
+				$Sprite2D.set_frame(19)
 		PARRY:
 			if(Input.is_action_pressed("ui_accept")):
 				act_counter = 29;
@@ -294,25 +285,39 @@ func action_handler():
 				act_counter = 29;
 				state = R_JAB;
 			if(act_counter == 8):
-				$Sprite.set_frame(21)
+				$Sprite2D.set_frame(21)
 			if(act_counter == 5):
-				$Sprite.set_frame(22)
+				$Sprite2D.set_frame(22)
 			if(act_counter == 2):
 				inam = false
 				state = BLOCK
 		BLOCKING:
 			if(act_counter == 9):
-				$Sprite.set_frame(22)
+				$Sprite2D.set_frame(22)
 				position.y += 4
 			elif(act_counter == 6):
 				position.y += 2
 			elif(act_counter == 2):
 				block_counter = 14
+		FALLING:
+			if(act_counter == 28):
+				position.y += 4
+			elif(act_counter == 25):
+				position.y += 5
+			elif(act_counter == 22):
+				position.y += 5
+			elif(act_counter == 18):
+				position.y +=5
+			elif(act_counter == 12):
+				position.y += 5
+				$Sprite2D.set_frame(16)
+			elif(act_counter ==1):
+				pass
 func idler():
 	act_counter -= 1;
 	position.x += idle[idle_index - 3]
 	if(act_counter <= 0):
-		$Sprite.set_frame(idle[idle_index +1])
+		$Sprite2D.set_frame(idle[idle_index +1])
 		act_counter = idle[idle_index + 2]
 		idle_index = (idle_index + 3) % 36
 
@@ -374,7 +379,7 @@ func no_stam():
 	act_counter -= 1;
 	if(act_counter <= 0):
 		position.y += out_of_stam[idle_index]
-		$Sprite.set_frame(out_of_stam[idle_index +1])
+		$Sprite2D.set_frame(out_of_stam[idle_index +1])
 		act_counter = out_of_stam[idle_index + 2]
 		idle_index = (idle_index + 3) % 6
 

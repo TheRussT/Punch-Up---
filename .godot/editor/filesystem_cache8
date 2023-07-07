@@ -1,0 +1,17 @@
+ea4bc82a6ad023ab7ee23ee620429895
+::res://::1688763602
+Boxing Ring_final.png::CompressedTexture2D::8803406121355483921::1688335037::1688763603::1::::<><>::
+default_env.tres::Environment::-1::1688763595::0::1::::<><>::
+enemy.gd::GDScript::-1::1688763595::0::1::::<>CharacterBody2D<>::
+Enemy.tscn::PackedScene::-1::1688763595::0::1::::<><>::res://SirRendrefinal.png
+f_healthbar.gd::GDScript::-1::1688350123::0::1::::<>RefCounted<>::
+healthbar.png::CompressedTexture2D::3003994647832815354::1688348933::1688763603::1::::<><>::
+icon.png::CompressedTexture2D::7033890053374369911::1687751465::1688763603::1::::<><>::
+player.gd::GDScript::-1::1688763595::0::1::::<>CharacterBody2D<>::
+Player_fighter_final.png::CompressedTexture2D::7775449888660470919::1688582554::1688763603::1::::<><>::
+Ring.gd::GDScript::-1::1688763595::0::1::::<>Node2D<>::
+Ring.tscn::PackedScene::-1::1688763595::0::1::::<><>::res://SirRendrefinal.png<>res://enemy.gd<>res://player.gd<>res://Player_fighter_final.png<>res://Boxing Ring_final.png<>res://healthbar.png<>res://Ring.gd<>res://staminabar.png<>res://Sir Rendre_falling_final.png
+Sir Rendre_falling_final.png::CompressedTexture2D::5083686825004966061::1688694233::1688763603::1::::<><>::
+SirRendrefinal.bmp::CompressedTexture2D::4924076565897226882::1688418888::1688763603::1::::<><>::
+SirRendrefinal.png::CompressedTexture2D::2221230924960503491::1688609098::1688763603::1::::<><>::
+staminabar.png::CompressedTexture2D::1330184601352611615::1688604772::1688763603::1::::<><>::

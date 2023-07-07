@@ -1,10 +1,10 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://SirRendrefinal.png" type="Texture" id=1]
+[ext_resource path="res://SirRendrefinal.png" type="Texture2D" id=1]
 
-[node name="Enemy" type="KinematicBody2D"]
+[node name="Enemy" type="CharacterBody2D"]
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource( 1 )
 hframes = 12
 vframes = 3
