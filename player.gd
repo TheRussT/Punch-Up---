@@ -5,12 +5,17 @@ signal punch(value)
 signal f_health(amount)
 signal stam_deplete(value,dazes)
 signal f_stam(amount)
-var health = 200;
+var health = 96;
 var stam_max = 20
 var stamina = stam_max
+var game_state = "main"
 
 enum {
 	IDLE, L_DODGE, R_DODGE, L_HOOK, R_HOOK,L_JAB,R_JAB,BLOCK,L_HIT,R_HIT,COOLDOWN,PARRY,BLOCKING,NO_STAM,FALLING
+}
+
+enum{
+	WALK_UP, WALK_DOWN, DOWN, NONE, EXCERCISE
 }
 var state = IDLE;
 var idle_index = 0;
@@ -49,40 +54,45 @@ func _process(_delta):
 	if !Input.is_action_pressed("ui_right") and !Input.is_action_pressed("ui_left") and !Input.is_action_pressed("ui_down") and !Input.is_action_pressed("ui_up") and !Input.is_action_pressed("ui_accept") and !Input.is_action_pressed("ui_cancel"):
 		direction_keys.clear()
 func _physics_process(_delta):
-	if(inam == false):
-		if(state == IDLE):
-			block_counter -= 1
-			idler()
-			process_player_input()
-		elif(state == BLOCK):
-			if(direction_keys.find("ui_up") < 0):
-				$Sprite2D.set_frame(0)
-				position.x = 110
-				position.y = 155
-				idle_index = 33
-				state = IDLE
-				block_counter = 16
-			elif(Input.is_action_pressed("ui_accept")):
-				act_counter = 29;
-				state = L_JAB;
-				inam = true
-			elif(Input.is_action_pressed("ui_cancel")):
-				act_counter = 29;
-				state = R_JAB;
-				inam = true
-		elif(state == NO_STAM):
-			no_stam()
-			if( direction_keys.find("ui_left") == 0):
-				act_counter = 41;
-				state = L_DODGE
-				inam = true;
-			elif(direction_keys.find("ui_right") == 0):
-				act_counter = 41;
-				state = R_DODGE
-				inam = true;
+	if(game_state == "main"):
+		if(inam == false):
+			if(state == IDLE):
+				block_counter -= 1
+				idler()
+				process_player_input()
+			elif(state == BLOCK):
+				if(direction_keys.find("ui_up") < 0):
+					$Sprite2D.set_frame(0)
+					position.x = 110
+					position.y = 155
+					idle_index = 33
+					state = IDLE
+					block_counter = 16
+				elif(Input.is_action_pressed("ui_accept")):
+					act_counter = 29;
+					state = L_JAB;
+					inam = true
+				elif(Input.is_action_pressed("ui_cancel")):
+					act_counter = 29;
+					state = R_JAB;
+					inam = true
+			elif(state == NO_STAM):
+				no_stam()
+				if(direction_keys.find("ui_left") == 0):
+					act_counter = 41;
+					state = L_DODGE
+					inam = true;
+				elif(direction_keys.find("ui_right") == 0):
+					act_counter = 41;
+					state = R_DODGE
+					inam = true;
+		else:
+			act_counter -= 1;
+			action_handler();
 	else:
-		act_counter -= 1;
-		action_handler();
+		if(inam == true):
+			act_counter -= 1
+		ko_handler()
 func process_player_input():
 	if(direction_keys.size() != 0):
 		var key = direction_keys.back()
@@ -321,6 +331,54 @@ func idler():
 		act_counter = idle[idle_index + 2]
 		idle_index = (idle_index + 3) % 36
 
+func ko_handler():
+	match state:
+		WALK_UP:
+			if(act_counter < 0):
+				if(position.y <= 155):
+					act_counter = 0
+					state = IDLE
+					inam = false
+					game_state = "main"
+				else:
+					position.y -= 5
+					if($Sprite2D.frame == 0):
+						$Sprite2D.set_frame(1)
+					else:
+						$Sprite2D.set_frame(0)
+					act_counter = 4
+		WALK_DOWN:
+			if(act_counter < 0):
+				if(position.y >= 205):
+					act_counter = 0
+					state = EXCERCISE
+					inam = false
+				else:
+					position.y += 5
+					if($Sprite2D.frame == 0):
+						$Sprite2D.set_frame(1)
+					else:
+						$Sprite2D.set_frame(0)
+					act_counter = 4
+		EXCERCISE:
+			if(act_counter == 0):
+				if(direction_keys.find("ui_accept") >= 0):
+					act_counter = 1
+					position.y -= 2
+				elif(direction_keys.find("ui_cancel") >= 0):
+					act_counter = 2
+					position.y -= 2
+			elif(act_counter == 1):
+				if(direction_keys.find("ui_cancel") == 0 and direction_keys.find("ui_accept") == -1):
+					act_counter = 0
+					handle_health(-0.25)
+					position.y += 2
+			elif(act_counter == 2):
+				if(direction_keys.find("ui_accept") == 0 and direction_keys.find("ui_cancel") == -1):
+					act_counter = 0
+					handle_health(-0.25)
+					position.y += 2
+	
 
 func _on_enemy_attack(type,damage):
 	if(state != R_HIT and state != L_HIT and state != BLOCKING):
@@ -357,16 +415,14 @@ func _on_enemy_attack(type,damage):
 					state = L_HIT
 					act_counter = 35
 					inam = true
-					health -= damage
+					handle_health(damage)
 					check_stam(damage/20)
-					emit_signal("f_health",health)
 				else:
 					state = R_HIT
 					act_counter = 35
 					inam = true
-					health -= damage
+					handle_health(damage)
 					check_stam(damage/20)
-					emit_signal("f_health",health)
 
 func check_stam(amount):
 	stamina -= amount
@@ -383,6 +439,20 @@ func no_stam():
 		act_counter = out_of_stam[idle_index + 2]
 		idle_index = (idle_index + 3) % 6
 
+func handle_health(value):
+	health -= value
+	if(health >= 96 and value < 0):
+		health += value
+	emit_signal("f_health",health)
 
 func _on_enemy_blocked(value):
 	check_stam(value)
+
+func _on_enemy_ko_to_player(state_no, wait):
+	game_state = "KO"
+	act_counter = wait
+	inam = true
+	if(state_no == 0):
+		state = WALK_DOWN
+	elif(state_no == 1):
+		state = WALK_UP

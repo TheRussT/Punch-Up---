@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dnx2036sf7bq4"]
+[gd_scene load_steps=12 format=3 uid="uid://dnx2036sf7bq4"]
 
 [ext_resource type="Texture2D" uid="uid://6v8l4hs7ptd0" path="res://SirRendrefinal.png" id="1"]
 [ext_resource type="Script" path="res://enemy.gd" id="2"]
@@ -9,11 +9,14 @@
 [ext_resource type="Script" path="res://Ring.gd" id="7"]
 [ext_resource type="Texture2D" uid="uid://s7l7fvh2ykv4" path="res://staminabar.png" id="8"]
 [ext_resource type="Texture2D" uid="uid://ceottxvx481cj" path="res://Sir Rendre_falling_final.png" id="9"]
+[ext_resource type="Script" path="res://ref.gd" id="10_4fsli"]
+[ext_resource type="Texture2D" uid="uid://dra7y64dpfwri" path="res://ref_final.png" id="11_ouj2y"]
 
 [node name="Ring" type="Node2D"]
 script = ExtResource("7")
 
 [node name="Background" type="Sprite2D" parent="."]
+texture_filter = 1
 position = Vector2(128, 120)
 texture = ExtResource("5")
 
@@ -22,8 +25,8 @@ offset_left = 62.0
 offset_top = 9.0
 offset_right = 124.0
 offset_bottom = 20.0
-max_value = 200.0
-value = 200.0
+max_value = 96.0
+value = 96.0
 fill_mode = 1
 texture_under = ExtResource("6")
 texture_progress = ExtResource("6")
@@ -40,17 +43,18 @@ texture = ExtResource("1")
 offset = Vector2(12, -61)
 hframes = 12
 vframes = 3
-frame = 28
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="enemy"]
 
 [node name="Sprite2" type="Sprite2D" parent="enemy"]
 visible = false
+texture_filter = 1
 position = Vector2(-14, 35)
 texture = ExtResource("9")
 offset = Vector2(14, -35)
 hframes = 6
 vframes = 2
+frame = 7
 
 [node name="player" type="CharacterBody2D" parent="."]
 position = Vector2(110, 155)
@@ -70,8 +74,8 @@ offset_left = 132.0
 offset_top = 9.0
 offset_right = 194.0
 offset_bottom = 20.0
-max_value = 200.0
-value = 200.0
+max_value = 96.0
+value = 96.0
 texture_progress = ExtResource("6")
 
 [node name="f_staminabar" type="TextureProgressBar" parent="."]
@@ -93,10 +97,26 @@ max_value = 35.0
 value = 35.0
 texture_progress = ExtResource("8")
 
+[node name="ref" type="Node2D" parent="."]
+position = Vector2(255, 140)
+script = ExtResource("10_4fsli")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="ref"]
+texture_filter = 1
+texture = ExtResource("11_ouj2y")
+hframes = 6
+vframes = 4
+
 [connection signal="attack" from="enemy" to="player" method="_on_enemy_attack"]
 [connection signal="blocked" from="enemy" to="player" method="_on_enemy_blocked"]
+[connection signal="count" from="enemy" to="ref" method="_on_enemy_count"]
+[connection signal="count_init" from="enemy" to="ref" method="_on_enemy_count_init"]
+[connection signal="health_deplete" from="enemy" to="." method="_on_enemy_health_deplete"]
+[connection signal="ko_to_player" from="enemy" to="player" method="_on_enemy_ko_to_player"]
 [connection signal="stam_deplete" from="enemy" to="." method="_on_enemy_stam_deplete"]
 [connection signal="f_health" from="player" to="." method="_on_player_f_health"]
 [connection signal="f_stam" from="player" to="." method="_on_player_f_stam"]
 [connection signal="punch" from="player" to="enemy" method="_on_player_punch"]
 [connection signal="stam_deplete" from="player" to="enemy" method="_on_player_stam_deplete"]
+[connection signal="getup" from="ref" to="enemy" method="_on_ref_getup"]
