@@ -4,13 +4,13 @@ extends CharacterBody2D
 var f_Table = {"stats":[125,118,[3,3,8,8],96,30], "idle":[6,-1,2,0,16,-2,-3,4,7,0,1,4,2,1,1,5,16,2,-2,4,7,0,1,4,2], "daze":[50,17], "jaw_hit":[3,0,0,15,2,2,-2,15,3,2,-2,15,3], "jaw_sent":[3,3,-2,16,3,2,-2,16,3,4,-4,16,10], #Stats, Idle, Daze, Hit, Sent
 "belly_hit":[3,0,0,12,3,1,-1,12,2,1,-1,12,1], "belly_sent":[3,1,-1,12,2,3,-2,12,2,3,-2,12,12], "up_block":[3,0,0,9,6,4,-2,9,4,0,0,8,20], "low_block":[3,0,0,7,6,4,-2,7,4,0,0,6,18] , #Stomach hit, Stomach sent, High block, Low block
 "stam_loss":[4,5,-2,13,8,3,-3,14,6,-3,-3,14,6,-5,-2,13,8,-5,2,13,8,-3,3,14,6,3,3,14,6,5,2,13], "dodge":[3,6,-4,10,5,6,-4,10,7,10,-6,10,15], #dodge
-"jab":[7,2,-1,1,6,[2,8,8,3],false,2,-2,1,6,[3,6,8,8],false,1,-2,1,18,[8,8,8,8],false,-2,2,22,6,[8,8,8,8],false,-12,12,18,4,[8,8,8,8],true,0,0,18,14,[1,1,1,1],false,3,-3,18,30,[1,1,1,1],false],
-"hook":[7,-6,-2,2,6,[8,8,8,8],false,-6,-2,19,6,[0,0,0,0],false,-12,2,19,20,[0,0,3,0],false,3,6,23,3,[0,0,0,0],false,8,6,20,5,[8,8,8,8],false,20,-3,20,4,[8,8,8,8],true,3,-1,21,42,[1,1,1,1],false],
-"taunt":[17,0,-2,0,8,[0,0,0,0],true,0,-2,4,8,[],false,0,-2,5,8,[],false,0,-2,0,8,[],false,0,-2,4,8,[],false,0,-2,5,8,[],false,0,-2,0,40,[],false,-4,-3,24,5,[],false,0,0,28,24,[],false,4,3,0,8,[],false,
--4,2,26,8,[],false,0,2,25,8,[],false,4,2,27,8,[],false,0,2,25,8,[],false,-4,2,26,8,[],false,0,2,25,8,[],false,2,2,27,8,[0,0,7,7],true,0,2,0,160,[],false],
+"jab":[7,2,-1,1,6,[4,8,8,4],false,2,-2,1,6,[4,6,8,8],false,1,-2,1,18,[8,8,8,8],false,-2,2,22,6,[3,8,8,8],false,-12,12,18,4,[8,8,8,8],true,0,0,18,14,[2,2,2,2],false,3,-3,18,30,[2,2,2,2],false],
+"hook":[7,-6,-2,2,6,[8,8,8,8],false,-6,-2,19,6,[-1,-1,-1,-1],false,-12,2,19,20,[-1,-1,3,-1],false,3,6,23,3,[-1,-1,-1,-1],false,8,6,20,5,[8,8,8,8],false,20,-3,20,4,[8,8,8,8],true,3,-1,21,38,[2,2,2,2],false,0,0,21,4,[8,8,3,3]],
+"taunt":[17,0,-2,0,8,[-1,-1,-1,-1],true,0,-2,4,8,[],false,0,-2,5,8,[],false,0,-2,0,8,[],false,0,-2,4,8,[],false,0,-2,5,8,[],false,0,-2,0,40,[],false,-4,-3,24,5,[],false,0,0,28,24,[],false,4,3,0,8,[],false,
+-4,2,26,8,[],false,0,2,25,8,[],false,4,2,27,8,[],false,0,2,25,8,[],false,-4,2,26,8,[],false,0,2,25,8,[],false,2,2,27,8,[1,1,1,1],true,0,2,0,160,[],false],
 "belly_ko":[40,6,20,2,-1,0,1,2,-1,0,1,2,-1,0,1,2,-1,1,3,-3,0,1,3,0,4,0,0,8,16,0,4,-1,-1,8,11,6,4,-1,-1,8,3], "fall":[5,0,0,3,12,0,-3,3,6,0,3,3,6,0,-3,3,6,0,3,3,12],
 "right_ko":[54,7,4,2,-1,11,2,0,4,3,-2,8,16,0,4,2,-1,8,11,4,4,-2,-1,8,3,0,4,0,0,9,16,4,4,2,-1,9,4,0,4,0,0,8,16,3,4,-1,-1,8,7,7,4,-1,-1,8,3,0,4,0,0,3,12,0,4,0,-3,3,12,0,4,0,3,3,12],}
-var f_schedule = [[0,11],[1,200],[0,14],[1,100],[0,13],[1,100],[0,14],[1,160],[0,13],[2,60,100],[4,2,11],[0,13],[1,70],[3,2],[0,14],[1,15],[0,14],[1,15],[3,14],[0,16],[1,5],[0,14],[3,2],[0,10],[3,2]]
+var f_schedule = [[0,11],[1,200],[0,14],[1,100],[0,13],[1,100],[0,14],[1,160],[0,13],[2,60,100],[4,2,11],[0,13],[1,70],[3,2],[0,14],[1,15],[0,14],[1,15],[3,14],[0,16],[1,15],[0,14],[3,2],[0,10],[3,2]]
 #                   0      1  |    2       3      4       5       6      7       8        9        10      11     12    13  |  14     15     16     17     18  |   19    20    21    22  |  23     24
 #             walk & start wait                                         main loop                                              player has no stamina                        taunt         stamina daze
 var game_state = "main"
@@ -38,6 +38,7 @@ signal blocked(value)
 signal count(schedule)
 signal count_init(state,wait)
 signal ko_to_player(state,wait)
+signal set_speed(amount)
 
 func _ready():
 	pass
@@ -50,6 +51,7 @@ func _physics_process(_delta):
 	
 func enemy_handler():
 	timer -= 1;
+	#print(str(guard))
 	if(state == 0): #Idling
 		#hit detection
 		if(timer <= 0):
@@ -87,6 +89,7 @@ func enemy_handler():
 				if(health <= 0):
 					main_to_ko(4,"right_ko")
 				else:	
+					emit_signal("set_speed",20)
 					reset()
 					guard = [8,8,3,3]
 			else:
@@ -122,6 +125,7 @@ func enemy_handler():
 					fall_sprite.flip_h = 1
 				else:
 					sprite.flip_h = 0;
+					emit_signal("set_speed",20)
 					reset()
 					guard = [8,8,3,3]
 			else:
@@ -152,6 +156,7 @@ func enemy_handler():
 				if(health <= 0):
 					main_to_ko(2,"belly_ko")
 				else:
+					emit_signal("set_speed",20)
 					reset()
 					guard = f_Table["stats"][2]
 			else:
@@ -245,6 +250,7 @@ func enemy_handler():
 				timer = f_Table["taunt"][t_counter + 3];
 				if(f_Table["taunt"][t_counter + 5] == true):
 					guard = f_Table["taunt"][t_counter + 4]
+					print(str(f_Table["taunt"][t_counter + 4]))
 				t_counter = (t_counter + 6) 
 		elif(f_Table["taunt"][t_counter-5]  == 2 and timer == 2):
 			position.y += 1
@@ -257,6 +263,7 @@ func schedule_handler():
 	if(sch_timer <= 0):
 		sch_index += 1
 		if(f_schedule[sch_index][0] == 0):
+			emit_signal("set_speed",60)
 			t_counter = 1
 			timer = 1
 			state = f_schedule[sch_index][1]
@@ -419,6 +426,7 @@ func ko_handler():
 		if(timer <= 0):
 			if(t_counter >= 24):
 				reset()
+				emit_signal("set_speed",20)
 				game_state = "main"
 				state = 0
 				sch_index = 1
@@ -467,6 +475,7 @@ func main_to_ko(new_state,new_table):
 	repeat_idx = t_counter
 	repeater = f_Table[new_table][t_counter - 2]
 	state = new_state
+	emit_signal("set_speed",100)
 func ko_to_main():
 	#signal to timer
 	#signal to player
@@ -518,8 +527,13 @@ func _on_player_punch(value):
 			elif(guard[0] > 4):
 				state = 12;
 			elif(guard[0] > 0):
-				if(guard[0] > 1):
+				if(guard[0] > 2):
 					hits_aval = 1
+				elif(guard[0] == 1):
+					health -= 100
+				elif(guard[0] == 0):
+					health -= 100
+					#win
 				state = 2;
 			else:
 				t_counter = temp_c
@@ -533,8 +547,13 @@ func _on_player_punch(value):
 			elif(guard[1] > 4):
 				state = 12;
 			elif(guard[1] > 0):
-				if(guard[0] > 1):
+				if(guard[0] > 2):
 					hits_aval = 1
+				elif(guard[0] == 1):
+					health -= 100
+				elif(guard[0] == 0):
+					health -= 100
+					#win
 				state = 4;
 			else:
 				t_counter = temp_c
@@ -548,8 +567,13 @@ func _on_player_punch(value):
 			elif(guard[2] > 4):
 				state = 12;
 			elif(guard[2] > 0):
-				if(guard[0] > 1):
+				if(guard[0] > 2):
 					hits_aval = 1
+				elif(guard[0] == 1):
+					health -= 100
+				elif(guard[0] == 0):
+					health -= 100
+					#win
 				state = 6;
 			else:
 				t_counter = temp_c
@@ -563,8 +587,13 @@ func _on_player_punch(value):
 			elif(guard[3] > 4):
 				state = 12;
 			elif(guard[3] > 0):
-				if(guard[0] > 1):
+				if(guard[0] > 2):
 					hits_aval = 1
+				elif(guard[0] == 1):
+					health -= 100
+				elif(guard[0] == 0):
+					health -= 100
+					#win
 				state = 6;
 			else:
 				t_counter = temp_c

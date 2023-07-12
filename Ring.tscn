@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dnx2036sf7bq4"]
+[gd_scene load_steps=13 format=3 uid="uid://dnx2036sf7bq4"]
 
 [ext_resource type="Texture2D" uid="uid://6v8l4hs7ptd0" path="res://SirRendrefinal.png" id="1"]
 [ext_resource type="Script" path="res://enemy.gd" id="2"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://ceottxvx481cj" path="res://Sir Rendre_falling_final.png" id="9"]
 [ext_resource type="Script" path="res://ref.gd" id="10_4fsli"]
 [ext_resource type="Texture2D" uid="uid://dra7y64dpfwri" path="res://ref_final.png" id="11_ouj2y"]
+[ext_resource type="Texture2D" uid="uid://gjc1e1t553g1" path="res://Timer_Text.png" id="12_tunph"]
 
 [node name="Ring" type="Node2D"]
 script = ExtResource("7")
@@ -108,12 +109,31 @@ texture = ExtResource("11_ouj2y")
 hframes = 6
 vframes = 4
 
+[node name="Timer_Hundreds" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(217, 14)
+texture = ExtResource("12_tunph")
+hframes = 10
+
+[node name="Timer_Tens" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(233, 14)
+texture = ExtResource("12_tunph")
+hframes = 10
+
+[node name="Timer_Ones" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(241, 14)
+texture = ExtResource("12_tunph")
+hframes = 10
+
 [connection signal="attack" from="enemy" to="player" method="_on_enemy_attack"]
 [connection signal="blocked" from="enemy" to="player" method="_on_enemy_blocked"]
 [connection signal="count" from="enemy" to="ref" method="_on_enemy_count"]
 [connection signal="count_init" from="enemy" to="ref" method="_on_enemy_count_init"]
 [connection signal="health_deplete" from="enemy" to="." method="_on_enemy_health_deplete"]
 [connection signal="ko_to_player" from="enemy" to="player" method="_on_enemy_ko_to_player"]
+[connection signal="set_speed" from="enemy" to="." method="_on_enemy_set_speed"]
 [connection signal="stam_deplete" from="enemy" to="." method="_on_enemy_stam_deplete"]
 [connection signal="f_health" from="player" to="." method="_on_player_f_health"]
 [connection signal="f_stam" from="player" to="." method="_on_player_f_stam"]
