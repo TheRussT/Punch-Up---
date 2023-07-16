@@ -45,3 +45,7 @@ func _on_enemy_stam_deplete(amount):
 
 func _on_enemy_set_speed(amount):
 	speed = amount
+
+
+func _on_player_set_speed(amount):
+	speed = amount

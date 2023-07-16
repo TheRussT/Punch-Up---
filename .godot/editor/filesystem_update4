@@ -2,3 +2,5 @@ res://default_env.tres
 res://Ring.tscn
 res://Ring.gd
 res://enemy.gd
+res://player.gd
+res://ref.gd

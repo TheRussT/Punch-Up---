@@ -5,17 +5,23 @@ signal punch(value)
 signal f_health(amount)
 signal stam_deplete(value,dazes)
 signal f_stam(amount)
+signal count_init(state)
+signal ko_to_enemy(state, wait)
+signal set_speed(amount)
 var health = 96;
 var stam_max = 20
 var stamina = stam_max
 var game_state = "main"
+var mash = 40
+var mash_co = 2
+var ko_count = 0
 
 enum {
 	IDLE, L_DODGE, R_DODGE, L_HOOK, R_HOOK,L_JAB,R_JAB,BLOCK,L_HIT,R_HIT,COOLDOWN,PARRY,BLOCKING,NO_STAM,FALLING
 }
 
 enum{
-	WALK_UP, WALK_DOWN, DOWN, NONE, EXCERCISE
+	WALK_UP, WALK_DOWN, DOWN, NONE, EXCERCISE, GETTING_UP, WALKING_UP
 }
 var state = IDLE;
 var idle_index = 0;
@@ -98,6 +104,7 @@ func process_player_input():
 		var key = direction_keys.back()
 		if Input.is_action_pressed(key):
 			if(key == "ui_accept"):
+				emit_signal("set_speed",60)
 				if(Input.is_action_pressed("ui_up")):
 					act_counter = 29;
 					state = L_JAB;
@@ -107,6 +114,7 @@ func process_player_input():
 					state = L_HOOK
 					inam = true;
 			elif(key == "ui_cancel"):
+				emit_signal("set_speed",60)
 				if(Input.is_action_pressed("ui_up")):
 					act_counter = 29;
 					state = R_JAB;
@@ -322,7 +330,17 @@ func action_handler():
 				position.y += 5
 				$Sprite2D.set_frame(16)
 			elif(act_counter ==1):
-				pass
+				position.y += 13
+				position.x = 110
+				game_state = "KO"
+				state = GETTING_UP
+				act_counter = 0
+				inam = false
+				$Sprite2D.set_frame(0)
+				emit_signal("count_init",2)
+				emit_signal("ko_to_enemy",12,0)
+				emit_signal("set_speed",100)
+				ko_calc()
 func idler():
 	act_counter -= 1;
 	position.x += idle[idle_index - 3]
@@ -378,7 +396,28 @@ func ko_handler():
 					act_counter = 0
 					handle_health(-0.25)
 					position.y += 2
-	
+		GETTING_UP:
+			position.y = 225 + (mash / mash_co)
+			if(mash == 0):
+				act_counter = 80
+				inam = true
+				state = WALK_UP
+				emit_signal("ko_to_enemy",11,100)
+				emit_signal("count_init",0)
+				handle_health(0)
+			elif(act_counter == 0):
+				if(direction_keys.find("ui_accept") >= 0):
+					act_counter = 1
+				elif(direction_keys.find("ui_cancel") >= 0):
+					act_counter = 2
+			elif(act_counter == 1):
+				if(direction_keys.find("ui_cancel") == 0 and direction_keys.find("ui_accept") == -1):
+					act_counter = 0
+					mash -= mash_co
+			elif(act_counter == 2):
+				if(direction_keys.find("ui_accept") == 0 and direction_keys.find("ui_cancel") == -1):
+					act_counter = 0
+					mash -= mash_co
 
 func _on_enemy_attack(type,damage):
 	if(state != R_HIT and state != L_HIT and state != BLOCKING):
@@ -456,3 +495,15 @@ func _on_enemy_ko_to_player(state_no, wait):
 		state = WALK_DOWN
 	elif(state_no == 1):
 		state = WALK_UP
+
+func ko_calc():
+	ko_count += 1
+	print("calc")
+	if(ko_count == 1):
+		health = 80
+		mash = 48
+		mash_co = 4
+	elif(ko_count == 2):
+		health = 60
+		mash = 60
+		mash_co = 3

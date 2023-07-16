@@ -5,8 +5,10 @@ var timer = 1
 var anim_counter = 0
 var count_sch = []
 var count = 1
+var knocked_down = ""
 
 signal getup(strength)
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -21,7 +23,7 @@ func state_handler():
 	timer -=1
 	if(state == 0):
 		if(timer <= 0):
-			if(anim_counter == 0):
+			if(anim_counter == 0): #fight!
 				$Sprite2D.set_frame(2)
 				timer = 20
 				anim_counter += 1
@@ -43,7 +45,7 @@ func state_handler():
 				state = 1
 				timer = 150
 				anim_counter = 0
-	elif(state == 1):
+	elif(state == 1): #walk back
 		if(timer <= 0):
 			if(position.x >= 255):
 				is_active = false
@@ -59,7 +61,7 @@ func state_handler():
 					$Sprite2D.set_frame(1)
 					anim_counter = -1
 				anim_counter += 1
-	elif(state == 2):
+	elif(state == 2): #walk out
 		if(timer <= 0):
 			if(position.x <= 165):
 				state = 3
@@ -74,10 +76,19 @@ func state_handler():
 					$Sprite2D.set_frame(1)
 					anim_counter = -1
 				anim_counter += 1
-	elif(state == 3):
+	elif(state == 3): #count
 		#print("here")
 		if(timer <= 0):
-			if(anim_counter == 0):
+			if(count == 10):
+				if(knocked_down == "enemy"):
+					pass
+					print("win")
+					#win
+				else:
+					pass
+					print("lose")
+					#lose
+			elif(anim_counter == 0):
 				$Sprite2D.set_frame(2)
 				timer = 20
 				anim_counter += 1
@@ -94,7 +105,7 @@ func state_handler():
 				$Sprite2D.set_frame(4 + count)
 				if(count >= 10):
 					state = 4
-				if(count_sch[count - 1] == 3):
+				elif(count_sch[count - 1] == 3):
 					emit_signal("getup",3)
 					timer = 400
 					state = 0
@@ -117,8 +128,18 @@ func _on_enemy_count(schedule):
 
 
 func _on_enemy_count_init(state,wait):
-	print("shant")
 	timer = wait
 	self.state = state
 	is_active = true
 	anim_counter = 0
+	count = 1
+	knocked_down = "enemy"
+
+
+func _on_player_count_init(state):
+	self.state = state
+	is_active = true
+	anim_counter = 0
+	count = 1
+	count_sch = [0,0,0,0,0,0,0,0,0,0]
+	knocked_down = "player"
