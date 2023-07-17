@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ccfi262dm5b2y"
-path="res://.godot/imported/SirRendrefinal.bmp-730e49899f9c82c6602bfbe6940362bf.ctex"
+uid="uid://bftaljvi2kwbd"
+path="res://.godot/imported/star_score.png-f6b2f736571bf820f443935d2313933b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://SirRendrefinal.bmp"
-dest_files=["res://.godot/imported/SirRendrefinal.bmp-730e49899f9c82c6602bfbe6940362bf.ctex"]
+source_file="res://star_score.png"
+dest_files=["res://.godot/imported/star_score.png-f6b2f736571bf820f443935d2313933b.ctex"]
 
 [params]
 

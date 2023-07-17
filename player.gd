@@ -8,7 +8,9 @@ signal f_stam(amount)
 signal count_init(state)
 signal ko_to_enemy(state, wait)
 signal set_speed(amount)
+signal score_star(amount)
 var health = 96;
+var star_count = 0
 var stam_max = 20
 var stamina = stam_max
 var game_state = "main"
@@ -17,7 +19,7 @@ var mash_co = 2
 var ko_count = 0
 
 enum {
-	IDLE, L_DODGE, R_DODGE, L_HOOK, R_HOOK,L_JAB,R_JAB,BLOCK,L_HIT,R_HIT,COOLDOWN,PARRY,BLOCKING,NO_STAM,FALLING
+	IDLE, L_DODGE, R_DODGE, L_HOOK, R_HOOK,L_JAB,R_JAB,BLOCK,L_HIT,R_HIT,COOLDOWN,PARRY,BLOCKING,NO_STAM,FALLING,STAR_PUNCH
 }
 
 enum{
@@ -25,7 +27,7 @@ enum{
 }
 var state = IDLE;
 var idle_index = 0;
-var idle = [-0.75,0,8,0.75,1,8,0,1,12,-0.75,0,8,0.75,1,8,0,1,48,-0.75,0,8,0.75,1,8,0,1,12,0.75,0,8,-0.75,1,8,0,1,64]
+var idle = [-1,1,2, -2,0,2, -4,0,9, 1,0,2, 2,1,2, 4,1,25, -1,1,2, -2,0,2, -4,0,9, 1,0,2, 2,1,2, 4,1,61, -1,1,2, -2,0,2, -4,0,9, 1,0,2, 2,1,2, 4,1,25, 1,1,2, 2,0,2, 4,0,9, -1,0,2, -2,1,2, -4,1,73]
 var out_of_stam = [1,24,6,-1,23,8]
 var has_no_stam = false
 var direction_keys = []
@@ -57,10 +59,15 @@ func _process(_delta):
 		direction_keys.push_back("ui_cancel")
 	elif Input.is_action_just_released("ui_cancel"):
 		direction_keys.erase("ui_cancel")
-	if !Input.is_action_pressed("ui_right") and !Input.is_action_pressed("ui_left") and !Input.is_action_pressed("ui_down") and !Input.is_action_pressed("ui_up") and !Input.is_action_pressed("ui_accept") and !Input.is_action_pressed("ui_cancel"):
+	if Input.is_action_just_pressed("ui_select"):
+		direction_keys.push_back("ui_select")
+	elif Input.is_action_just_released("ui_select"):
+		direction_keys.erase("ui_select")
+	if !Input.is_action_pressed("ui_right") and !Input.is_action_pressed("ui_left") and !Input.is_action_pressed("ui_down") and !Input.is_action_pressed("ui_up") and !Input.is_action_pressed("ui_accept") and !Input.is_action_pressed("ui_cancel") and !Input.is_action_pressed("ui_select"):
 		direction_keys.clear()
 func _physics_process(_delta):
 	if(game_state == "main"):
+		#print(str(position.x))
 		if(inam == false):
 			if(state == IDLE):
 				block_counter -= 1
@@ -69,7 +76,7 @@ func _physics_process(_delta):
 			elif(state == BLOCK):
 				if(direction_keys.find("ui_up") < 0):
 					$Sprite2D.set_frame(0)
-					position.x = 110
+					position.x = 114
 					position.y = 155
 					idle_index = 33
 					state = IDLE
@@ -137,14 +144,24 @@ func process_player_input():
 						act_counter = 11
 						state = PARRY
 						inam = true
+			elif(key == "ui_select"):
+				if(star_count > 0):
+					if(star_count == 3):
+						act_counter = 55
+					elif(star_count == 2):
+						act_counter = 47
+					elif(act_counter == 1):
+						act_counter = 39
+					state = STAR_PUNCH
+					inam = true
 		
 func action_handler():
 	if(act_counter <= 0): #if complicates going down, add another conditional or act_counter = 1 change states
 		inam = false
 		$Sprite2D.set_frame(0)
-		position.x = 110
+		position.x = 114
 		position.y = 155
-		idle_index = 33
+		idle_index = 69
 		state = IDLE
 		if(has_no_stam == true):
 			idle_index = 0
@@ -254,6 +271,8 @@ func action_handler():
 				position.y += 3
 		L_HIT:
 			if(act_counter == 34):
+				emit_signal("score_star", 0)
+				star_count = 0
 				$Sprite2D.set_frame(17)
 				position.x -= 4
 				position.y += 4
@@ -269,10 +288,12 @@ func action_handler():
 			elif(act_counter == 2):
 				state = COOLDOWN
 				act_counter = 16
-				position.x = 110
+				position.x = 114
 				position.y = 155
 		R_HIT:
 			if(act_counter == 34):
+				emit_signal("score_star", 0)
+				star_count = 0
 				$Sprite2D.set_frame(14)
 				position.x += 6
 				position.y += 4
@@ -288,7 +309,7 @@ func action_handler():
 			elif(act_counter == 2):
 				state = COOLDOWN
 				act_counter = 16
-				position.x = 110
+				position.x = 114
 				position.y = 155
 		COOLDOWN:
 			if(act_counter == 15):
@@ -331,7 +352,7 @@ func action_handler():
 				$Sprite2D.set_frame(16)
 			elif(act_counter ==1):
 				position.y += 13
-				position.x = 110
+				position.x = 114
 				game_state = "KO"
 				state = GETTING_UP
 				act_counter = 0
@@ -341,13 +362,54 @@ func action_handler():
 				emit_signal("ko_to_enemy",12,0)
 				emit_signal("set_speed",100)
 				ko_calc()
+		STAR_PUNCH:
+			if(act_counter == 54):
+				$Sprite2D.set_frame(25)
+			elif(act_counter == 50):
+				$Sprite2D.set_frame(26)
+			elif(act_counter == 46):
+				$Sprite2D.set_frame(25)
+			elif(act_counter == 42):
+				$Sprite2D.set_frame(26)
+			elif(act_counter == 38):
+				$Sprite2D.set_frame(25)
+				position.x += 5
+			elif(act_counter == 34):
+				$Sprite2D.set_frame(26)
+				position.y -= 7
+				position.x += 7
+			elif(act_counter == 33):
+				position.y -= 7
+				position.x += 2
+			elif(act_counter == 32):
+				$Sprite2D.set_frame(27)
+				position.y -= 6
+				position.x += 2
+				emit_signal("punch", 3 + star_count)
+				emit_signal("score_star", 0)
+				star_count = 0
+			elif(act_counter == 30):
+				position.y -= 6
+				position.x += 4
+			elif(act_counter == 23):
+				position.y += 6
+				position.x -= 2
+				$Sprite2D.set_frame(28)
+			elif(act_counter == 14):
+				position.x -= 4
+				position.y += 6
+				$Sprite2D.set_frame(29)
+			elif(act_counter == 8):
+				position.x -= 4
+				position.y += 6
+			
 func idler():
 	act_counter -= 1;
-	position.x += idle[idle_index - 3]
 	if(act_counter <= 0):
+		position.x += idle[idle_index]
 		$Sprite2D.set_frame(idle[idle_index +1])
 		act_counter = idle[idle_index + 2]
-		idle_index = (idle_index + 3) % 36
+		idle_index = (idle_index + 3) % 72
 
 func ko_handler():
 	match state:
@@ -382,20 +444,20 @@ func ko_handler():
 			if(act_counter == 0):
 				if(direction_keys.find("ui_accept") >= 0):
 					act_counter = 1
-					position.y -= 2
+					position.y -= 1
 				elif(direction_keys.find("ui_cancel") >= 0):
 					act_counter = 2
-					position.y -= 2
+					position.y -= 1
 			elif(act_counter == 1):
 				if(direction_keys.find("ui_cancel") == 0 and direction_keys.find("ui_accept") == -1):
 					act_counter = 0
 					handle_health(-0.25)
-					position.y += 2
+					position.y += 1
 			elif(act_counter == 2):
 				if(direction_keys.find("ui_accept") == 0 and direction_keys.find("ui_cancel") == -1):
 					act_counter = 0
 					handle_health(-0.25)
-					position.y += 2
+					position.y += 1
 		GETTING_UP:
 			position.y = 225 + (mash / mash_co)
 			if(mash == 0):
@@ -405,6 +467,7 @@ func ko_handler():
 				emit_signal("ko_to_enemy",11,100)
 				emit_signal("count_init",0)
 				handle_health(0)
+				idle_index = 69
 			elif(act_counter == 0):
 				if(direction_keys.find("ui_accept") >= 0):
 					act_counter = 1
@@ -448,7 +511,7 @@ func _on_enemy_attack(type,damage):
 				inam = true
 				#check stam
 			elif((state != R_DODGE and state != L_DODGE) or ((state == R_DODGE or state == L_DODGE) and act_counter <= 12)):
-				position.x = 110
+				position.x = 114
 				position.y = 155
 				if((type % 2) == 0):
 					state = L_HIT
@@ -491,6 +554,7 @@ func _on_enemy_ko_to_player(state_no, wait):
 	game_state = "KO"
 	act_counter = wait
 	inam = true
+	position.x = 114
 	if(state_no == 0):
 		state = WALK_DOWN
 	elif(state_no == 1):
@@ -507,3 +571,9 @@ func ko_calc():
 		health = 60
 		mash = 60
 		mash_co = 3
+
+
+func _on_star_star_to_player():
+	if(star_count < 3):
+		star_count += 1
+		emit_signal("score_star",star_count)

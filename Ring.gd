@@ -3,13 +3,14 @@ extends Node2D
 @onready var ones = $Timer_Ones
 @onready var tens = $Timer_Tens
 @onready var hundreds = $Timer_Hundreds
+@onready var s_score = $star_score
 var countdown = 10
 var speed = 20
 var timer = 180
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	s_score.visible = false
 
 
 
@@ -49,3 +50,11 @@ func _on_enemy_set_speed(amount):
 
 func _on_player_set_speed(amount):
 	speed = amount
+
+
+func _on_player_score_star(amount):
+	if(amount == 0):
+		s_score.visible = false
+	else:
+		s_score.set_frame(amount - 1)
+		s_score.visible = true

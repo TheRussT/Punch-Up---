@@ -1,21 +1,22 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1689484150
+::res://::1689566822
 Boxing Ring_final.png::CompressedTexture2D::8803406121355483921::1689108662::1689108665::1::::<><>::
-default_env.tres::Environment::1108902428849552237::1689481337::0::1::::<><>::
-enemy.gd::GDScript::-1::1689481337::0::1::::<>CharacterBody2D<>::
+default_env.tres::Environment::1108902428849552237::1689548203::0::1::::<><>::
+enemy.gd::GDScript::-1::1689546251::0::1::::<>CharacterBody2D<>::
 Enemy.tscn::PackedScene::-1::1688763595::0::1::::<><>::res://SirRendrefinal.png
 f_healthbar.gd::GDScript::-1::1688350123::0::1::::<>RefCounted<>::
 healthbar.png::CompressedTexture2D::3003994647832815354::1688348933::1688763603::1::::<><>::
 icon.png::CompressedTexture2D::7033890053374369911::1687751465::1688763603::1::::<><>::
-player.gd::GDScript::-1::1689481199::0::1::::<>CharacterBody2D<>::
+player.gd::GDScript::-1::1689548203::0::1::::<>CharacterBody2D<>::
 Player_fighter_final.png::CompressedTexture2D::7775449888660470919::1689483782::1689484343::1::::<><>::
 ref.gd::GDScript::-1::1689452090::0::1::::<>Node2D<>::
 ref_final.png::CompressedTexture2D::8354459868927854426::1688955045::1688955051::1::::<><>::
+star.gd::GDScript::-1::1689531033::0::1::::<>Sprite2D<>::
 Ring.gd::GDScript::-1::1689452576::0::1::::<>Node2D<>::
-Ring.tscn::PackedScene::8120883229737935633::1689481337::0::1::::<><>::uid://6v8l4hs7ptd0::::res://SirRendrefinal.png<>res://enemy.gd<>res://player.gd<>uid://di1qr2l5diqvn::::res://Player_fighter_final.png<>uid://dxoo2vnobe6sb::::res://Boxing Ring_final.png<>uid://bi2fmaa1c4oo5::::res://healthbar.png<>res://Ring.gd<>uid://s7l7fvh2ykv4::::res://staminabar.png<>uid://ceottxvx481cj::::res://Sir Rendre_falling_final.png<>res://ref.gd<>uid://dra7y64dpfwri::::res://ref_final.png<>uid://gjc1e1t553g1::::res://Timer_Text.png
+Ring.tscn::PackedScene::8120883229737935633::1689548203::0::1::::<><>::uid://6v8l4hs7ptd0::::res://SirRendrefinal.png<>res://enemy.gd<>res://player.gd<>uid://di1qr2l5diqvn::::res://Player_fighter_final.png<>uid://dxoo2vnobe6sb::::res://Boxing Ring_final.png<>uid://bi2fmaa1c4oo5::::res://healthbar.png<>res://Ring.gd<>uid://s7l7fvh2ykv4::::res://staminabar.png<>uid://ceottxvx481cj::::res://Sir Rendre_falling_final.png<>res://ref.gd<>uid://dra7y64dpfwri::::res://ref_final.png<>uid://gjc1e1t553g1::::res://Timer_Text.png<>uid://bbk4y8p3hy4ar::::res://star.png<>res://star.gd
 Sir Rendre_falling_final.png::CompressedTexture2D::5083686825004966061::1688958178::1688958183::1::::<><>::
-SirRendrefinal.bmp::CompressedTexture2D::4924076565897226882::1688418888::1688763603::1::::<><>::
 SirRendrefinal.png::CompressedTexture2D::2221230924960503491::1688609098::1688763603::1::::<><>::
 staminabar.png::CompressedTexture2D::1330184601352611615::1688604772::1688763603::1::::<><>::
 star.png::CompressedTexture2D::2479058714440820213::1689484205::1689484343::1::::<><>::
+star_score.png::CompressedTexture2D::2776608228494379581::1689566894::1689566905::1::::<><>::
 Timer_Text.png::CompressedTexture2D::439880577404682758::1689108550::1689108555::1::::<><>::
