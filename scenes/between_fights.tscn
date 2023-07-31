@@ -1,0 +1,254 @@
+[gd_scene load_steps=6 format=3 uid="uid://dyrtli1hio7tb"]
+
+[ext_resource type="Script" path="res://scenes/Between_fights.gd" id="1_ehg3a"]
+[ext_resource type="Texture2D" uid="uid://c0h6tlr6qw3os" path="res://assets/Enemy_Round.png" id="3_31s0h"]
+[ext_resource type="FontFile" uid="uid://gdswle2ewes6" path="res://assets/punch-out-nes.ttf" id="3_tgvny"]
+[ext_resource type="Texture2D" uid="uid://227lm0tlkyjb" path="res://assets/Player_Round.png" id="4_nde37"]
+[ext_resource type="Texture2D" uid="uid://b14lhrikx06tc" path="res://assets/between_fights.png" id="5_y86a4"]
+
+[node name="Between_fights" type="Node2D"]
+script = ExtResource("1_ehg3a")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 256.0
+offset_bottom = 448.0
+color = Color(0, 0, 0, 1)
+
+[node name="circuit" type="Label" parent="."]
+texture_filter = 1
+offset_left = 70.0
+offset_top = 4.0
+offset_right = 174.0
+offset_bottom = 15.0
+theme_override_colors/font_color = Color(1, 0.662745, 0, 1)
+theme_override_fonts/font = ExtResource("3_tgvny")
+theme_override_font_sizes/font_size = 8
+text = "Minor Circuit"
+
+[node name="Enemy" type="Node2D" parent="."]
+
+[node name="e_record" type="Label" parent="Enemy"]
+texture_filter = 1
+offset_left = 161.0
+offset_top = 140.0
+offset_right = 241.0
+offset_bottom = 151.0
+theme_override_fonts/font = ExtResource("3_tgvny")
+theme_override_font_sizes/font_size = 8
+text = " 1- 8  1ko"
+
+[node name="e_ranked" type="Label" parent="Enemy"]
+texture_filter = 1
+offset_left = 161.0
+offset_top = 23.0
+offset_right = 241.0
+offset_bottom = 34.0
+theme_override_colors/font_color = Color(0.247059, 0.670588, 0.247059, 1)
+theme_override_fonts/font = ExtResource("3_tgvny")
+theme_override_font_sizes/font_size = 8
+text = "Ranked: #2"
+
+[node name="e_name" type="Label" parent="Enemy"]
+texture_filter = 1
+offset_left = 161.0
+offset_top = 34.0
+offset_right = 241.0
+offset_bottom = 56.0
+theme_override_fonts/font = ExtResource("3_tgvny")
+theme_override_font_sizes/font_size = 8
+text = "sir rendre"
+
+[node name="e_picture" type="Sprite2D" parent="Enemy"]
+texture_filter = 1
+position = Vector2(200, 96)
+texture = ExtResource("3_31s0h")
+hframes = 9
+frame = 2
+
+[node name="e_name2" type="Label" parent="Enemy"]
+texture_filter = 1
+offset_left = 161.0
+offset_top = 45.0
+offset_right = 239.0
+offset_bottom = 56.0
+theme_override_fonts/font = ExtResource("3_tgvny")
+theme_override_font_sizes/font_size = 8
+
+[node name="e_profile" type="Label" parent="Enemy"]
+texture_filter = 1
+offset_left = 161.0
+offset_top = 151.0
+offset_right = 233.0
+offset_bottom = 162.0
+theme_override_constants/line_spacing = 2
+theme_override_fonts/font = ExtResource("3_tgvny")
+theme_override_font_sizes/font_size = 8
+text = "\"Profile\""
+
+[node name="e_from" type="Label" parent="Enemy"]
+texture_filter = 1
+offset_left = 162.0
+offset_top = 162.0
+offset_right = 250.0
+offset_bottom = 195.0
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("3_tgvny")
+theme_override_font_sizes/font_size = 8
+text = "from
+ lyon,
+    france"
+
+[node name="e_age" type="Label" parent="Enemy"]
+texture_filter = 1
+offset_left = 161.0
+offset_top = 194.0
+offset_right = 217.0
+offset_bottom = 205.0
+theme_override_fonts/font = ExtResource("3_tgvny")
+theme_override_font_sizes/font_size = 8
+text = "age: 20"
+
+[node name="e_weight" type="Label" parent="Enemy"]
+texture_filter = 1
+offset_left = 161.0
+offset_top = 205.0
+offset_right = 249.0
+offset_bottom = 216.0
+theme_override_fonts/font = ExtResource("3_tgvny")
+theme_override_font_sizes/font_size = 8
+text = "weight:162"
+
+[node name="Fighter" type="Node2D" parent="."]
+position = Vector2(-144, 0)
+
+[node name="f_record" type="Label" parent="Fighter"]
+texture_filter = 1
+offset_left = 161.0
+offset_top = 140.0
+offset_right = 241.0
+offset_bottom = 151.0
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("3_tgvny")
+theme_override_font_sizes/font_size = 8
+text = " 0- 0  0ko"
+
+[node name="f_ranked" type="Label" parent="Fighter"]
+texture_filter = 1
+offset_left = 161.0
+offset_top = 23.0
+offset_right = 241.0
+offset_bottom = 34.0
+theme_override_colors/font_color = Color(0.247059, 0.670588, 0.247059, 1)
+theme_override_fonts/font = ExtResource("3_tgvny")
+theme_override_font_sizes/font_size = 8
+text = "Ranked: #3"
+
+[node name="f_name" type="Label" parent="Fighter"]
+texture_filter = 1
+offset_left = 161.0
+offset_top = 34.0
+offset_right = 241.0
+offset_bottom = 56.0
+theme_override_fonts/font = ExtResource("3_tgvny")
+theme_override_font_sizes/font_size = 8
+text = "sockman"
+
+[node name="f_picture" type="Sprite2D" parent="Fighter"]
+texture_filter = 1
+position = Vector2(200, 96)
+texture = ExtResource("4_nde37")
+hframes = 9
+frame = 2
+
+[node name="f_name2" type="Label" parent="Fighter"]
+texture_filter = 1
+offset_left = 161.0
+offset_top = 45.0
+offset_right = 239.0
+offset_bottom = 56.0
+theme_override_fonts/font = ExtResource("3_tgvny")
+theme_override_font_sizes/font_size = 8
+
+[node name="f_profile" type="Label" parent="Fighter"]
+texture_filter = 1
+offset_left = 161.0
+offset_top = 151.0
+offset_right = 233.0
+offset_bottom = 162.0
+theme_override_fonts/font = ExtResource("3_tgvny")
+theme_override_font_sizes/font_size = 8
+text = "\"Profile\""
+
+[node name="f_from" type="Label" parent="Fighter"]
+texture_filter = 1
+offset_left = 162.0
+offset_top = 162.0
+offset_right = 250.0
+offset_bottom = 195.0
+theme_override_constants/line_spacing = 1
+theme_override_fonts/font = ExtResource("3_tgvny")
+theme_override_font_sizes/font_size = 8
+text = "from
+ bronx,
+  new york"
+
+[node name="f_age" type="Label" parent="Fighter"]
+texture_filter = 1
+offset_left = 161.0
+offset_top = 194.0
+offset_right = 217.0
+offset_bottom = 205.0
+theme_override_fonts/font = ExtResource("3_tgvny")
+theme_override_font_sizes/font_size = 8
+text = "age: 18"
+
+[node name="f_weight" type="Label" parent="Fighter"]
+texture_filter = 1
+offset_left = 161.0
+offset_top = 205.0
+offset_right = 249.0
+offset_bottom = 216.0
+theme_override_fonts/font = ExtResource("3_tgvny")
+theme_override_font_sizes/font_size = 8
+text = "weight:122"
+
+[node name="vs_" type="Label" parent="."]
+texture_filter = 1
+offset_left = 118.0
+offset_top = 95.0
+offset_right = 142.0
+offset_bottom = 106.0
+theme_override_colors/font_color = Color(1, 0.662745, 0, 1)
+theme_override_fonts/font = ExtResource("3_tgvny")
+theme_override_font_sizes/font_size = 8
+text = "vs."
+
+[node name="push start" type="Label" parent="."]
+texture_filter = 1
+offset_left = 103.0
+offset_top = 163.0
+offset_right = 159.0
+offset_bottom = 185.0
+theme_override_colors/font_color = Color(1, 0.662745, 0, 1)
+theme_override_fonts/font = ExtResource("3_tgvny")
+theme_override_font_sizes/font_size = 8
+text = "push
+ start!
+"
+
+[node name="ready" type="Label" parent="."]
+texture_filter = 1
+offset_left = 103.0
+offset_top = 244.0
+offset_right = 151.0
+offset_bottom = 255.0
+theme_override_colors/font_color = Color(1, 0.662745, 0, 1)
+theme_override_fonts/font = ExtResource("3_tgvny")
+theme_override_font_sizes/font_size = 8
+text = "round:"
+
+[node name="round_number" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(126, 334)
+texture = ExtResource("5_y86a4")
+hframes = 3

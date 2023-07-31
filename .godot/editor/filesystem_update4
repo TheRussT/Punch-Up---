@@ -1,7 +1,5 @@
 res://default_env.tres
-res://Ring.tscn
-res://Ring.gd
-res://enemy.gd
-res://player.gd
-res://ref.gd
-res://star.gd
+res://scenes/Ring.tscn
+res://scenes/enemy.gd
+res://scenes/between_fights.tscn
+res://scenes/Ring.gdshader
