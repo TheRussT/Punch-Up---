@@ -7,12 +7,14 @@ var read_timer
 var message
 var index = 0
 var partial
-var mess_table = ["you undig-\nnified\namerican!\ni come from\na long line\nof sir-\nrendreres!" , "I was over-\nconfident,\ni think\ni'll\ncapitulate\nsoon!" , "I'd better\nsay au\nrevoir to\nmy family"]
+var mess_table = ["you undig-\nnified\namerican!\ni come from\na long line\nof sir-\nrendreres!" , "I was over-\nconfident,\ni think\ni'll\ncapitulate\nsoon!" , "I'd better\nsay au\nrevoir to\nmy family",
+"","if you\nthink you\ncan beat\nme, you're\nin de-nile\nhahaha!","","","fool! I\ntake hits\nbetter\nthan any\nother \nsoccer \nplayer!"]
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if(GlobalScript.menu_index < 100):
-		$Enemy/e_picture.set_frame(GlobalScript.fight_index * 9 + 2 * GlobalScript.round + 1)
-		$Fighter/f_picture.set_frame(GlobalScript.fight_index * 9 + 2 * GlobalScript.round + 1)
+		$Enemy/e_picture.set_frame(GlobalScript.fight_index * 9 + 1)#$Enemy/e_picture.set_frame(GlobalScript.fight_index * 9 + 2 * GlobalScript.round + 1)
+		$Fighter/f_picture.set_frame(1)#$Fighter/f_picture.set_frame(GlobalScript.fight_index * 9 + 2 * GlobalScript.round + 1)
+		$Fighter/f_record.text = " " + str(GlobalScript.fight_index) + "- 0  " + str(GlobalScript.fight_index) + "ko"
 		if(GlobalScript.menu_index % 3 == 0):
 			$Enemy/e_age.visible = true
 			$Enemy/e_weight.visible = true
@@ -37,6 +39,14 @@ func _ready():
 				$Enemy/e_age.text = "age: 36"
 				$Enemy/e_weight.text = "weight:234"
 				$Enemy/e_from.text = "from\n cairo,\n     egypt"
+			elif(GlobalScript.menu_index == 6):
+				$Enemy/e_record.text = "16-5 14ko"
+				$Enemy/e_name.text = "m'babe"
+				$Enemy/e_name2.text = "futbol"
+				$Enemy/e_ranked.text = "ranked: champion"
+				$Enemy/e_age.text = "age: 26"
+				$Enemy/e_weight.text = "weight:212"
+				$Enemy/e_from.text = "from\nsao paulo,\n    brazil"
 		elif(GlobalScript.menu_index % 3 < 3):
 			$Enemy/e_age.visible = false
 			$Enemy/e_weight.visible = false
@@ -44,7 +54,7 @@ func _ready():
 			$Fighter/f_age.visible = false
 			$Fighter/f_weight.visible = false
 			$Fighter/f_from.visible = false
-			message = mess_table[1]
+			message = mess_table[1+3*GlobalScript.fight_index]
 			isreading = true
 			partial = ''
 			index = 0
@@ -66,14 +76,18 @@ func _process(delta):
 			get_tree().change_scene_to_file("res://scenes/Ring.tscn")
 	if(timer <= 0):
 		timer = 120
-		if($Enemy/e_picture.frame == GlobalScript.fight_index * 9 + 2 * GlobalScript.round + 1):
-			$Enemy/e_picture.set_frame(GlobalScript.fight_index * 9 + 2 * GlobalScript.round + 2)
-		elif($Enemy/e_picture.frame == GlobalScript.fight_index * 9 + 2 * GlobalScript.round + 2):
-			$Enemy/e_picture.set_frame(GlobalScript.fight_index * 9 + 2 * GlobalScript.round + 1)
-		if($Fighter/f_picture.frame == GlobalScript.fight_index * 9 + 2 * GlobalScript.round + 1):
-			$Fighter/f_picture.set_frame(GlobalScript.fight_index * 9 + 2 * GlobalScript.round + 2)
-		elif($Fighter/f_picture.frame == GlobalScript.fight_index * 9 + 2 * GlobalScript.round + 2):
-			$Fighter/f_picture.set_frame(GlobalScript.fight_index * 9 + 2 * GlobalScript.round + 1)
+		if($Enemy/e_picture.frame == GlobalScript.fight_index * 9 + 1):#if($Enemy/e_picture.frame == GlobalScript.fight_index * 9 + 2 * GlobalScript.round + 1):
+			$Enemy/e_picture.set_frame(GlobalScript.fight_index * 9 + 2)
+			#$Enemy/e_picture.set_frame(GlobalScript.fight_index * 9 + 2 * GlobalScript.round + 2)
+		elif($Enemy/e_picture.frame == GlobalScript.fight_index * 9 + 2):#elif($Enemy/e_picture.frame == GlobalScript.fight_index * 9 + 2 * GlobalScript.round + 2):
+			$Enemy/e_picture.set_frame(GlobalScript.fight_index * 9 + 1)
+			#$Enemy/e_picture.set_frame(GlobalScript.fight_index * 9 + 2 * GlobalScript.round + 1)
+		if($Fighter/f_picture.frame == 1):#if($Fighter/f_picture.frame == GlobalScript.fight_index * 9 + 2 * GlobalScript.round + 1):
+			$Fighter/f_picture.set_frame(2)
+			#$Fighter/f_picture.set_frame(GlobalScript.fight_index * 9 + 2 * GlobalScript.round + 2)
+		elif($Fighter/f_picture.frame == 2):#elif($Fighter/f_picture.frame == GlobalScript.fight_index * 9 + 2 * GlobalScript.round + 2):
+			$Fighter/f_picture.set_frame(1)
+			#$Fighter/f_picture.set_frame(GlobalScript.fight_index * 9 + 2 * GlobalScript.round + 1)
 	if Input.is_action_just_pressed("ui_select"):
 		ismoving = true
 		$round_number.set_frame(GlobalScript.round)

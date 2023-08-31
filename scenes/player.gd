@@ -9,7 +9,7 @@ signal count_init(state,techko)
 signal ko_to_enemy(state, wait)
 signal set_speed(amount)
 signal score_star(amount)
-var health = 96;
+@export var health = 96;
 var star_count = 0
 var stam_max = 20
 var stamina = stam_max
@@ -19,6 +19,7 @@ var mash_co = 2
 var ko_count = 0
 var dodge_timer = 0
 var is_blocked = false
+var pos_table = [2,1,2,2]
 
 enum {
 	IDLE, L_DODGE, R_DODGE, L_HOOK, R_HOOK,L_JAB,R_JAB,BLOCK,L_HIT,R_HIT,COOLDOWN,PARRY,BLOCKING,NO_STAM,FALLING,STAR_PUNCH
@@ -160,7 +161,7 @@ func process_player_input():
 						act_counter = 55
 					elif(star_count == 2):
 						act_counter = 47
-					elif(act_counter == 1):
+					else:
 						act_counter = 39
 					state = STAR_PUNCH
 					inam = true
@@ -173,6 +174,7 @@ func action_handler():
 		position.y = 155
 		idle_index = 69
 		state = IDLE
+		pos_table = [2,1,2,2]
 		if(has_no_stam == true):
 			idle_index = 0
 			state = NO_STAM
@@ -188,6 +190,7 @@ func action_handler():
 				position.x -= 3
 			elif (act_counter == 40):
 				position.x -= 3
+				pos_table = [1,2,2,2]
 			elif (act_counter == 39):
 				position.x -= 3
 				position.y +=3
@@ -202,7 +205,7 @@ func action_handler():
 					act_counter = 18
 					if(direction_keys.has("ui_right") == true):
 						act_counter = 14
-						print("earl")
+						#print("earl")
 			elif(act_counter == 13):
 				direction_keys.erase("ui_left")
 				position.x += 5
@@ -212,6 +215,7 @@ func action_handler():
 				position.y -= 3
 			elif(act_counter == 8):
 				position.x += 1
+				pos_table = [2,1,2,2]
 			elif(act_counter == 7):
 				position.x += 2
 			elif(act_counter == 6):
@@ -236,6 +240,7 @@ func action_handler():
 				position.x += 4
 			elif (act_counter == 40):
 				position.x += 3
+				pos_table = [2,2,1,2]
 			elif (act_counter == 39):
 				position.x += 3
 				position.y +=3
@@ -259,6 +264,7 @@ func action_handler():
 				$Sprite2D.set_frame(0)
 				position.y -= 5
 			elif(act_counter == 8):
+				pos_table = [2,1,2,2]
 				position.x -= 1
 			elif(act_counter == 7):
 				position.x -= 2
@@ -625,23 +631,10 @@ func ko_handler():
 					act_counter = 0
 					mash -= mash_co
 
-func _on_enemy_attack(type,damage):
+func _on_enemy_attack(type,damage,table,duration,stam):
 	if(state != R_HIT and state != L_HIT and state != BLOCKING):
-		if(((state == R_DODGE or state == L_DODGE) and 39 > act_counter and act_counter > 10)):
-			if(has_no_stam == true):
-				stamina += stam_max/5
-				#print(str(stamina))
-				if(stamina >= stam_max):
-					stamina = stam_max
-					check_stam(0)
-					has_no_stam = false
-		elif(type > 5):
-			pass
-		elif(type == 5):
-			pass
-		elif(type == 4):
-			pass
-		else:
+		if(table[0] == pos_table[0] or table[1] == pos_table[1] or table[2] == pos_table[2] or table[3] == pos_table[3]):
+			#print(str(pos_table))
 			if(type <= 1 and state == PARRY and act_counter < 6):
 				emit_signal("stam_deplete",3,true)
 				act_counter = 12
@@ -652,24 +645,41 @@ func _on_enemy_attack(type,damage):
 				act_counter = 12
 				state = BLOCKING
 				inam = true
-				#check stam
-			elif((state != R_DODGE and state != L_DODGE) or ((state == R_DODGE or state == L_DODGE) and (act_counter <= 10 or act_counter >= 31))):
+			else:
 				position.x = 114
 				position.y = 155
-				if((type % 2) == 0):
-					#print("eUYIGnjz")
+				act_counter = 35
+				inam = true
+				handle_health(damage)
+				check_stam(1 + stam)
+				if(type %2 == 0):
 					state = L_HIT
-					act_counter = 35
-					inam = true
-					handle_health(damage)
-					check_stam(damage/20)
 				else:
-					#print("pooahEG")
 					state = R_HIT
-					act_counter = 35
-					inam = true
-					handle_health(damage)
-					check_stam(damage/20)
+		else:
+			if(duration == 1):
+				if(state == R_DODGE):
+					#print(str(act_counter))
+					#print(str(table[2] == 1 and act_counter < 40 + duration))
+					#print(str(table[1] == 1 and act_counter < 8 + duration))
+					if(!(table[2] == 1 and act_counter < 41) and !(table[1] == 1 and act_counter < 9)):
+						emit_signal("stam_deplete",stam,false)
+						if(stamina <= 0):
+							stamina = stam_max
+							check_stam(0)
+							has_no_stam = false
+				elif(state == L_DODGE):
+					#print(str(act_counter))
+					#print(str(table[0] == 1 and act_counter < 40 + duration))
+					#print(str(table[1] == 1 and act_counter < 8 + duration))
+					if(!(table[0] == 1 and act_counter < 40 + duration) and !(table[1] == 1 and act_counter < 8 + duration)):
+						emit_signal("stam_deplete",stam,false)
+						if(stamina <= 0):
+							stamina = stam_max
+							check_stam(0)
+							has_no_stam = false
+		
+	
 
 func check_stam(amount):
 	stamina -= amount

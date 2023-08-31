@@ -8,7 +8,7 @@ extends Node2D
 @onready var e_healthbar = $e_healthbar
 @onready var f_staminabar = $f_staminabar
 @onready var e_staminabar = $e_staminabar
-var es_value = 35
+var es_value 
 var fs_value = 20
 var eh_value = 96
 var fh_value = 96
@@ -20,10 +20,21 @@ var timer = 180
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	s_score.visible = false
-
+	if(GlobalScript.fight_index == 0):
+		e_staminabar.max_value = 30
+		es_value = 30
+	elif(GlobalScript.fight_index == 1):
+		e_staminabar.max_value = 50
+		es_value = 50
+	elif(GlobalScript.fight_index == 2):
+		e_staminabar.max_value = 12
+		es_value = 12
+	e_staminabar.value = e_staminabar.max_value
+	$round_number.set_frame(GlobalScript.round - 1)
 
 
 func _physics_process(delta):
+	#print(str(e_staminabar.value))
 	if(speed < 100):
 		countdown -= 1
 	if(countdown <= 0):
@@ -37,7 +48,6 @@ func _physics_process(delta):
 			print("this")
 			get_tree().change_scene_to_file("res://scenes/between_fights.tscn")
 		countdown = speed
-			
 	if(es_value < e_staminabar.value):
 		e_staminabar.value -= 1
 	elif(es_value > e_staminabar.value + 1):

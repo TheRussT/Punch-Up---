@@ -145,8 +145,8 @@ func state_handler():
 				if(knocked_down == "enemy"):
 					GlobalScript.menu_index = 101
 				else:
-					GlobalScript.menu_index = 101
-				get_tree().change_scene_to_file("res://scenes/between_fights.tscn")
+					GlobalScript.menu_index = 102
+				get_tree().change_scene_to_file("res://scenes/win_lose.tscn")
 
 
 func _on_enemy_count(schedule):

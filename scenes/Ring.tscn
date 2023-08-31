@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dnx2036sf7bq4"]
+[gd_scene load_steps=23 format=3 uid="uid://dnx2036sf7bq4"]
 
 [ext_resource type="Script" path="res://scenes/Ring.gd" id="1_brhrb"]
 [ext_resource type="Texture2D" uid="uid://dxoo2vnobe6sb" path="res://assets/Boxing Ring_final.png" id="2_swsgw"]
@@ -10,13 +10,17 @@
 [ext_resource type="Texture2D" uid="uid://c23bdx0spq35v" path="res://assets/Sarwatt_the_great_final.png" id="7_mp6qw"]
 [ext_resource type="Shader" path="res://scenes/Ring.gdshader" id="7_tx2aj"]
 [ext_resource type="Texture2D" uid="uid://di1qr2l5diqvn" path="res://assets/Player_fighter_final.png" id="8_2tf0a"]
+[ext_resource type="Texture2D" uid="uid://iujj5virgnpb" path="res://assets/Sarwatt_falling_final.png" id="9_el3gm"]
 [ext_resource type="Texture2D" uid="uid://s7l7fvh2ykv4" path="res://assets/staminabar.png" id="9_tljn5"]
 [ext_resource type="Script" path="res://scenes/ref.gd" id="10_2cm8d"]
+[ext_resource type="Texture2D" uid="uid://d0v4pmsrqhtyv" path="res://assets/m'babe_final.png" id="10_fqqhu"]
 [ext_resource type="Texture2D" uid="uid://dra7y64dpfwri" path="res://assets/ref_final.png" id="11_42sfq"]
+[ext_resource type="Texture2D" uid="uid://r0qhqlvlouc1" path="res://assets/Mbabe_falling_final.png" id="11_pn2yu"]
 [ext_resource type="Texture2D" uid="uid://gjc1e1t553g1" path="res://assets/Timer_Text.png" id="12_rac86"]
 [ext_resource type="Texture2D" uid="uid://bbk4y8p3hy4ar" path="res://assets/star.png" id="13_c4vc1"]
 [ext_resource type="Script" path="res://scenes/star.gd" id="14_rm1ep"]
 [ext_resource type="Texture2D" uid="uid://bftaljvi2kwbd" path="res://assets/star_score.png" id="15_fuh13"]
+[ext_resource type="Texture2D" uid="uid://cnixw4cqx2iqv" path="res://assets/Round_number.png" id="20_pqx2w"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_utibj"]
 shader = ExtResource("7_tx2aj")
@@ -54,6 +58,7 @@ texture = ExtResource("5_okqmo")
 offset = Vector2(12, -61)
 hframes = 12
 vframes = 3
+frame = 13
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="enemy"]
 
@@ -68,11 +73,32 @@ vframes = 2
 frame = 7
 
 [node name="Sarwatt" type="Sprite2D" parent="enemy"]
+visible = false
 material = SubResource("ShaderMaterial_utibj")
 texture = ExtResource("7_mp6qw")
 hframes = 11
 vframes = 3
-frame = 15
+frame = 23
+
+[node name="Sarwat_fall" type="Sprite2D" parent="enemy"]
+visible = false
+texture = ExtResource("9_el3gm")
+hframes = 6
+vframes = 2
+frame = 10
+
+[node name="Mbabe" type="Sprite2D" parent="enemy"]
+visible = false
+texture = ExtResource("10_fqqhu")
+hframes = 14
+vframes = 2
+frame = 16
+
+[node name="Mbabe_fall" type="Sprite2D" parent="enemy"]
+visible = false
+texture = ExtResource("11_pn2yu")
+hframes = 2
+vframes = 2
 
 [node name="player" type="CharacterBody2D" parent="."]
 position = Vector2(110, 155)
@@ -157,6 +183,12 @@ visible = false
 texture_filter = 1
 position = Vector2(27, 18)
 texture = ExtResource("15_fuh13")
+hframes = 3
+
+[node name="round_number" type="Sprite2D" parent="."]
+position = Vector2(241, 20)
+texture = ExtResource("20_pqx2w")
+centered = false
 hframes = 3
 
 [connection signal="attack" from="enemy" to="player" method="_on_enemy_attack"]

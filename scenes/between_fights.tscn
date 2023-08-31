@@ -63,6 +63,7 @@ texture_filter = 1
 position = Vector2(200, 96)
 texture = ExtResource("3_31s0h")
 hframes = 9
+vframes = 3
 frame = 2
 
 [node name="e_name2" type="Label" parent="Enemy"]
@@ -151,7 +152,7 @@ offset_right = 241.0
 offset_bottom = 56.0
 theme_override_fonts/font = ExtResource("3_tgvny")
 theme_override_font_sizes/font_size = 8
-text = "sockman"
+text = "player"
 
 [node name="f_picture" type="Sprite2D" parent="Fighter"]
 texture_filter = 1
