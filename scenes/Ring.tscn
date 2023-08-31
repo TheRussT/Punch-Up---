@@ -47,6 +47,7 @@ texture_progress = ExtResource("3_t8hgb")
 tint_under = Color(0.0823529, 0.0823529, 0.0823529, 1)
 
 [node name="enemy" type="CharacterBody2D" parent="."]
+visible = false
 position = Vector2(123, 120)
 script = ExtResource("4_53fqo")
 

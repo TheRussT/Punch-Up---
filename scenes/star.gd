@@ -34,4 +34,4 @@ func _on_enemy_star(xpos, ypos):
 	is_active = true 
 	visible = true
 	timer = 16
-	print("should star")
+	#print("should star")

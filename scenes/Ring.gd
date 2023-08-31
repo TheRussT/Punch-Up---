@@ -45,7 +45,7 @@ func _physics_process(delta):
 		if(timer == 0):
 			speed = 100
 			emit_signal("round_timeout","Ring")
-			print("this")
+			#print("this")
 			get_tree().change_scene_to_file("res://scenes/between_fights.tscn")
 		countdown = speed
 	if(es_value < e_staminabar.value):

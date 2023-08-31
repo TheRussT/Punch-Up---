@@ -70,7 +70,7 @@ func _ready():
 		f_Table = {"stats":[120,120,[[6,6,8,8,6],[6,6,7,7,6],[2,2,4,4,4],[1,1,1,1,0]],1,12], "idle":[6,-2,-3,1,9,-1,2,2,6,0,2,2,7,1,-2,1,8,2,-2,1,6,0,3,0,10], "daze":[50,11,19], "jaw_hit":[3,0,0,9,2,1,-1,9,2,2,-2,9,1], "jaw_sent":[3,4,-1,10,2,4,-2,10,3,5,-3,10,12], 
 "belly_hit":[3,0,0,8,3,0,-1,8,2,1,-1,8,1], "belly_sent":[3,0,-1,8,2,1,-2,8,2,2,-3,8,12], "up_block":[2,0,0,7,5,2,-4,7,24], "low_block":[2,0,0,6,5,2,-4,6,19] , 
 "stam_loss":[4,0,0,16,1,0,0,16,1,0,0,16,1,0,0,16,1,0,0,16,1,0,0,16,1,0,0,16,1,0,0,16,60], "dodge":[3,6,-1,11,5,4,-3,11,7,2,-1,11,15], "star" :[0,48,56],
-"jab":[7,1,-1,12,5,[-1,-1,-1,-1,6],false,2,-3,12,5,[6,6,8,8,6],false,-2,-2,12,8,[-1,-1,-1,-1,6],false,-1,1,12,8,[-1,-1,-1,-1,6],false,-14,14,13,4,[-1,-1,-1,-1,6],true,0,0,13,12,[8,8,4,4,4],true,3,-3,13,18,[6,6,8,8,6],false],
+"jab":[7,1,-1,12,5,[-1,-1,-1,-1,6],false,2,-3,12,5,[6,6,8,8,6],false,-2,-2,12,8,[-1,-1,-1,-1,6],false,-1,1,12,8,[-1,-1,-1,-1,6],false,-14,14,13,4,[-1,-1,-1,-1,6],true,0,0,13,12,[8,8,4,4,4],false,3,-3,13,18,[6,6,8,8,6],false],
 "hook":[7,-4,-2,17,6,[8,8,8,8,4],false,-4,-2,17,6,[-1,-1,-1,-1,5],false,-12,2,17,20,[-1,-1,3,-1,5],false,3,6,18,3,[-1,-1,-1,-1,6],false,8,6,18,5,[8,8,8,8,6],false,10,-3,19,4,[8,8,8,8,6],true,3,-1,19,38,[6,6,8,8,6],false],
 "taunt":[9,2,-5,0,10,[-1,-1,-1,-1,-1],true,2,-4,1,8,[],false,2,-2,2,16,[],false,0,0,23,8,[],false,0,0,24,6,[],false,0,0,23,12,[-1,-1,-1,-1,1],true,-2,2,2,10,[-1,-1,-1,-1,-1],false,-2,4,22,8,[],false,-2,5,23,10,[],false], 
 "uppercut":[6,-8,2,20,5,[-1,-1,-1,-1,6],false,-6,3,20,6,[-1,-1,-1,-1,6],false,-2,4,20,14,[-1,-1,-1,-1,-1],false,10,-2,21,4,[6,6,6,6,6],true,10,-4,21,6,[6,6,6,6,6],false,6,-10,22,36,[6,6,8,8,6],false],
@@ -667,7 +667,7 @@ func check_stam(value,dazes):
 	emit_signal("stam_deplete", stamina)
 	if(stamina <= 0):
 		reset()
-		print(f_schedule[0][0])
+		#print(f_schedule[0][0])
 		sch_index = f_schedule[0][0]
 		sch_timer= 0
 		guard = [-1,-1,-1,-1,-1]
@@ -685,7 +685,7 @@ func check_stam(value,dazes):
 		guard = [2,2,2,2,4]
 		
 func check_conditionals(value):
-	print(str(rage))
+	#print(str(rage))
 	if( GlobalScript.fight_index == 0):
 		if(idle_hit_counter == 8):
 			idle_hit_counter += 1
@@ -804,7 +804,7 @@ func _on_player_punch(value):
 						state = 12
 					health -= (value * 5)
 					state = 4
-					print(str((value - 3) * 4))
+					#print(str((value - 3) * 4))
 					check_conditionals((value - 3) * 4)
 				elif(guard[4] > 1):
 					if(guard[4] == 4 and value < 5):
@@ -841,9 +841,9 @@ func _on_player_punch(value):
 				elif(GlobalScript.fight_index == 2 and state == 0):
 					sch_timer = 1
 					sch_index = 20
-					print("should counter U from idle")
-					print(f_schedule[sch_index])
-					print(f_schedule[sch_index+1])
+					#print("should counter U from idle")
+					#print(f_schedule[sch_index])
+					#print(f_schedule[sch_index+1])
 				state = 12
 				check_stam(6 - guard[value],false)
 			elif(guard[value]>= 0):

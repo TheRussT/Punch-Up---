@@ -116,7 +116,7 @@ func state_handler():
 					timer = 300
 				elif(count_sch[count - 1] == 1):
 					emit_signal("getup",1)
-					print("timer should set")
+					#print("timer should set")
 					timer = 250
 				else:
 					timer = 75
